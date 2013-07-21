@@ -1,15 +1,15 @@
  //Mini Jeu du PlusOuMoins
-if (confirm("tu veut jouer avec moi?"))
+if (confirm("tu veux jouer avec moi?"))
 {
 var jouer= true;
 while(jouer)
 {
 var nbr1 ;
-var nbr2 = prompt("psst... c'est quoi le nombre mystere?");
+var nbr2 = prompt("psst... c'est quoi le nombre mystère?");
 
 while(nbr1 != nbr2)
 	{
-	nbr1 = prompt("c'est quoi le nombre mystere?");
+	nbr1 = prompt("c'est quoi le nombre mystère?");
 	if (nbr1>nbr2)
 		{
 		alert("C'est plus petit!");
@@ -20,10 +20,10 @@ while(nbr1 != nbr2)
 		}
 	else
         	{
-		alert("Bravo! Tu as decouvert le nombre mystere!")
+		alert("Bravo! Tu as découvert le nombre mystère!")
 		}
 	}
-jouer= confirm("Veut-tu rejouer?");
+jouer= confirm("Veux-tu rejouer?");
 }
 }
 else{
