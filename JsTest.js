@@ -27,7 +27,7 @@ jouer= confirm("Veut-tu rejouer?");
 }
 }
 else{
-alert("D'accord, fesons plutot du calcul.");}
+alert("Dommage, j'avais des bonbons...");}
 /*
 var chiffre= new Array ();
 var i=0, c;
