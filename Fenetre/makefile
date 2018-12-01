@@ -4,6 +4,7 @@ EXE=$(TARGET_DIR)fenetre
 TARGET_DIR=./target/
 SRC= $(wildcard *.c)
 OBJ= $(SRC:.c=.o)
+OBJ_DIR=./obj/
 
 #executables
 RM:= rm
@@ -12,16 +13,19 @@ CC:= gcc
 
 #rules
 
-all:$(TARGET_DIR) $(EXE)
+all:$(TARGET_DIR) $(OBJ_DIR) $(EXE)
 
 $(TARGET_DIR):
 	@$(MD) -p $(TARGET_DIR)
 
-$(EXE): $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+$(OBJ_DIR):
+	@$(MD) -p $(OBJ_DIR)
 
-%.o:%c
-	@$(CC) $(CFLAGS)-o $@ -c $< 
+$(EXE): $(OBJ)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_DIR)$^ $(LDFLAGS)
+
+$(OBJ_DIR)%.o:%c
+	@$(CC) $(CFLAGS)-o $(OBJ_DIR)$@ -c $< 
 
 .PHONY: clean mrproper
 
