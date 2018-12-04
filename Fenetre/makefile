@@ -1,7 +1,7 @@
 TARGET   = fenetre
 
 CC       = gcc
-CFLAGS   = -std=c99 -Wall -I.
+CFLAGS   = -std=c99 -Wall -I. -pedantic
 LINKER   = gcc
 LFLAGS   = -Wall -I. -lm -lSDL2
 
@@ -12,7 +12,7 @@ BINDIR   = bin
 SOURCES  := $(wildcard $(SRCDIR)/*.c)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-RM       = rm -rf
+RM       = rm -f
 MD	 := mkdir
 
 
