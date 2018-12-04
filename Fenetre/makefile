@@ -1,35 +1,42 @@
-CFLAGS= -O3 -W -Wall -pedantic
-LDFLAGS=-lSDL2
-EXE=$(TARGET_DIR)fenetre
-TARGET_DIR=./target/
-SRC= $(wildcard *.c)
-OBJ= $(SRC:.c=.o)
-OBJ_DIR=./obj/
+TARGET   = fenetre
 
-#executables
-RM:= rm
-MD:= mkdir
-CC:= gcc
+CC       = gcc
+CFLAGS   = -std=c99 -Wall -I.
+LINKER   = gcc
+LFLAGS   = -Wall -I. -lm -lSDL2
 
-#rules
+SRCDIR   = src
+OBJDIR   = obj
+BINDIR   = bin
 
-all:$(TARGET_DIR) $(OBJ_DIR) $(EXE)
+SOURCES  := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+RM       = rm -rf
+MD	 := mkdir
 
-$(TARGET_DIR):
-	@$(MD) -p $(TARGET_DIR)
 
-$(OBJ_DIR):
-	@$(MD) -p $(OBJ_DIR)
 
-$(EXE): $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ_DIR)$^ $(LDFLAGS)
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
+	@echo "Linking complete!"
 
-$(OBJ_DIR)%.o:%c
-	@$(CC) $(CFLAGS)-o $(OBJ_DIR)$@ -c $< 
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" successfully!"
 
-.PHONY: clean mrproper
+.PHONY: init
+init:	
+	@$(MD) $(BINDIR)
+	@$(MD) $(OBJDIR)
+	@$(MD) $(SRCDIR)
 
+.PHONY: clean
 clean:
-	@$(RM) -rf *.o
-mrproper: clean
-	@$(RM) -rf $(EXE) $(TARGET_DIR)
+	@$(RM) $(OBJECTS)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
+remove: clean
+	@$(RM) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"

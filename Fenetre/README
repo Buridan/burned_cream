@@ -1,2 +1,3 @@
+Ce projet a pour but de prendre en main la librairie SDL2 pour manipuler des fenetres graphiques dans un environnement de dev cross-platforme.
 dependences externe:
 sdl2
