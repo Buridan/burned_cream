@@ -18,8 +18,6 @@ RM       = rm -rf
 MD	 	 := mkdir
 CP		 := cp -r 
 
-
-#TODO : ajouter l'execution automatique
 $(BINDIR)/$(TARGET): $(OBJECTS)
 	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
 	@echo "Linking complete!"

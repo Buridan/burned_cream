@@ -1,3 +1,6 @@
-Ce projet a pour but de prendre en main la librairie SDL2 pour manipuler des fenetres graphiques dans un environnement de dev cross-platforme.
-dependences externe:
-sdl2
+Ce projet a pour but de prendre en main la librairie SDL2 pour manipuler des fenetres graphiques dans un environnement de dev linux et Windows.
+dependences à l'exécution:
+SDL2
+
+#TODO : ajouter l'execution automatique à la compilation
+#TODO : inclure les ressources graphiques dans l'exécutable final
