@@ -5,7 +5,7 @@
 
 #define WIN_W	640
 #define WIN_H	480
-#define WIN_C_W 	WIN_W/2
+#define WIN_C_W WIN_W/2
 #define WIN_C_H	WIN_H/2
 
 int main(int argc, char** argv)
@@ -28,11 +28,12 @@ int main(int argc, char** argv)
 		//creation du moteur de rendu pour la fenetre
 		SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow,-1,
 								  SDL_RENDERER_ACCELERATED);
-		//chargement de l'image du sprite
+		//chargement à l'exécution de l'image du sprite
 		SDL_Surface* pSprite = SDL_LoadBMP("./data/decors.bmp");
 		SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer,pSprite);
 		assert(pTexture && pSprite && pRenderer);
-		SDL_FreeSurface(pSprite);//plus utile ensuite
+		//liberation des données de la surface
+		SDL_FreeSurface(pSprite);
 		//recuperation des dimensions de la texture
 		struct {Uint32 fmt;int acc,w,h;}txInfo={NULL,NULL,0,0};
 		SDL_QueryTexture(pTexture,&txInfo.fmt,&txInfo.acc,&txInfo.w,&txInfo.h);
