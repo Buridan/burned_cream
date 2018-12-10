@@ -10,6 +10,7 @@
 
 int main(int argc, char** argv)
 {
+
 	/* Initialisation simple */
 	if (0 != SDL_Init(SDL_INIT_VIDEO))
 	{
@@ -17,8 +18,11 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	{
-		/* Création de la fenêtre */
 		SDL_Window* pWindow = NULL;
+		SDL_Event evenement;
+		int end = 0;
+
+		/* Création de la fenêtre */
 		pWindow = SDL_CreateWindow("Ma première application SDL2",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			WIN_W, WIN_H, SDL_WINDOW_SHOWN);
@@ -29,23 +33,33 @@ int main(int argc, char** argv)
 		SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow,-1,
 								  SDL_RENDERER_ACCELERATED);
 		//chargement à l'exécution de l'image du sprite
-		SDL_Surface* pSprite = SDL_LoadBMP("./data/decors.bmp");
-		SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer,pSprite);
-		assert(pTexture && pSprite && pRenderer);
+		SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
+		SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer,pDecors);
+		assert(pTexture && pDecors && pRenderer);
 		//liberation des données de la surface
-		SDL_FreeSurface(pSprite);
+		SDL_FreeSurface(pDecors);
 		//recuperation des dimensions de la texture
-		struct {Uint32 fmt;int acc,w,h;}txInfo={NULL,NULL,0,0};
+		struct {Uint32 fmt;int acc,w,h;}txInfo={0,0,0,0};
 		SDL_QueryTexture(pTexture,&txInfo.fmt,&txInfo.acc,&txInfo.w,&txInfo.h);
 
 		//destination du sprite
 		SDL_Rect dest ={WIN_C_W-(txInfo.w/2),WIN_C_H-(txInfo.h/2),txInfo.w,txInfo.h};
-		//Copie de la texture sur l'ecran
+		//Copie de la texture dqns le rendu
 		SDL_RenderCopy(pRenderer,pTexture,NULL,&dest);
-		//rafraichissement du rendu de l'ecran
+		//rafraichissement du rendu dans la fenetre
 		SDL_RenderPresent(pRenderer);
-		//attente
-		SDL_Delay(3000);
+		//boucle principale
+		while(!end)
+		{
+			SDL_WaitEvent(&evenement);
+			switch(evenement.type)
+			{
+				case SDL_QUIT:
+				case SDL_KEYDOWN:
+					end = 1;
+					break;
+			}
+		}
 		//destruction de la texture
 		SDL_DestroyTexture(pTexture);
 		//destruction du moteur de rendu
