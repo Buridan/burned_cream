@@ -15,7 +15,7 @@ INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 DATAS	 := $(wildcard $(SRCDIR)/$(DATADIR)/*)
 RM       = rm -rf
-MD	 	 := mkdir
+MD	 	 := mkdir -p
 CP		 := cp -r 
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
