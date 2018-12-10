@@ -8,6 +8,9 @@
 #define WIN_C_W WIN_W/2
 #define WIN_C_H	WIN_H/2
 
+typedef struct {Uint32 fmt;int acc,w,h;}texture_info;
+SDL_Rect targetZoneCentered(texture_info txi);
+
 int main(int argc, char** argv)
 {
 
@@ -39,12 +42,11 @@ int main(int argc, char** argv)
 		//liberation des données de la surface
 		SDL_FreeSurface(pDecors);
 		//recuperation des dimensions de la texture
-		struct {Uint32 fmt;int acc,w,h;}txInfo={0,0,0,0};
+		texture_info txInfo={0,0,0,0};
 		SDL_QueryTexture(pTexture,&txInfo.fmt,&txInfo.acc,&txInfo.w,&txInfo.h);
 
 		//destination du sprite
-		SDL_Rect dest ={WIN_C_W-(txInfo.w/2),WIN_C_H-(txInfo.h/2),txInfo.w,txInfo.h};
-		//Copie de la texture dqns le rendu
+		SDL_Rect dest =	targetZoneCentered(txInfo);	//Copie de la texture dans le rendu
 		SDL_RenderCopy(pRenderer,pTexture,NULL,&dest);
 		//rafraichissement du rendu dans la fenetre
 		SDL_RenderPresent(pRenderer);
@@ -70,3 +72,9 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+SDL_Rect targetZoneCentered(texture_info txi)
+{
+	SDL_Rect result = {WIN_C_W-(txi.w/2),WIN_C_H-(txi.h/2),txi.w,txi.h};
+	return result;
+}
+
