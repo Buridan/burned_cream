@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <assert.h>
+#include "data/decors.h"
 
 #define WIN_W	640
 #define WIN_H	480
@@ -35,8 +37,14 @@ int main(int argc, char** argv)
 		//creation du moteur de rendu pour la fenetre
 		SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow,-1,
 								  SDL_RENDERER_ACCELERATED);
-		//chargement à l'exécution de l'image du sprite
-		SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
+		//l'image se charge depuis la memoire
+		SDL_RWops *raw = SDL_RWFromMem(MagickImage ,sizeof(MagickImage));
+		SDL_Surface* pDecors = IMG_Load_RW(raw,1);
+		if(NULL==pDecors) printf("Error : %s\n",SDL_GetError());
+
+		IMG_Init(IMG_INIT_JPG);
+		//SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
+		IMG_Quit();
 		SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer,pDecors);
 		assert(pTexture && pDecors && pRenderer);
 		//liberation des données de la surface

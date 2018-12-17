@@ -3,7 +3,7 @@ TARGET   = fenetre
 CC       = gcc
 CFLAGS   = -std=c99 -Wall -I. -pedantic -g
 LINKER   = gcc
-LFLAGS   = -Wall -I. -lm -lSDL2
+LFLAGS   = -Wall -I. -lm -lSDL2 -lSDL2_image
 
 SRCDIR   = src
 DATADIR  = data
