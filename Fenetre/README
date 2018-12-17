@@ -1,6 +1,10 @@
 Ce projet a pour but de prendre en main la librairie SDL2 pour manipuler des fenetres graphiques dans un environnement de dev linux et Windows.
 dependences à l'exécution:
 SDL2
-
+, SDL2_image
 #TODO : ajouter l'execution automatique à la compilation
+	- un script "r" est disponible dans le dossier src afin de compiler et lancer le programme automatiquement.
+	- cette fonctionnalite est disponible depuis vim en utilisant une macro.
 #TODO : inclure les ressources graphiques dans l'exécutable final
+	- utilisation de imagemagick pour convertir les images en structure C.
+	Exemple : "convert image.bmp image.h".
