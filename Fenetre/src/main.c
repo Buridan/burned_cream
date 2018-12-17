@@ -12,10 +12,10 @@ int main(int argc, char** argv)
 	initAll();
 	//chargement à l'exécution de l'image du sprite
 	SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
-	SDL_Texture* pTexture =   SDL_CreateTextureFromSurface(getRenderer(),pDecors);
-	initSprite();
 	assert(pDecors);
+	SDL_Texture* pTexture =   SDL_CreateTextureFromSurface(getRenderer(),pDecors);
 	assert(pTexture);
+	initSprite();
 	//liberation des données de la surface
 	SDL_FreeSurface(pDecors);
 	//SDL_FreeSurface(pSprite);
