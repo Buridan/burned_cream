@@ -2,79 +2,72 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <assert.h>
+#include "init.h"
+#include "sprite.h"
 
-#define WIN_W	640
-#define WIN_H	480
-#define WIN_C_W WIN_W/2
-#define WIN_C_H	WIN_H/2
-
-typedef struct {Uint32 fmt;int acc,w,h;}texture_info;
-SDL_Rect targetZoneCentered(texture_info txi);
-
+int mainEventLoop();
+SDL_Rect winCentered(texture_info txi);
 int main(int argc, char** argv)
 {
+	initAll();
+	//chargement à l'exécution de l'image du sprite
+	SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
+	SDL_Texture* pTexture =   SDL_CreateTextureFromSurface(getRenderer(),pDecors);
+	initSprite();
+	assert(pDecors);
+	assert(pTexture);
+	//liberation des données de la surface
+	SDL_FreeSurface(pDecors);
+	//SDL_FreeSurface(pSprite);
+	//recuperation des dimensions de la texture
+	texture_info BGInfo={0,0,0,0};
+	texture_info frame={0,0,0,0};
+	SDL_QueryTexture(pTexture, &BGInfo.fmt, &BGInfo.acc, &BGInfo.w, &BGInfo.h);
+	SDL_QueryTexture(getTexSprite(), &frame.fmt, &frame.acc, &frame.w, &frame.h);
+	//rectangle source du sprite
+	assert(frame.w && frame.h);
+	SDL_Rect SPClip = {0,15,frame.w/2,48};
 
-	/* Initialisation simple */
-	if (0 != SDL_Init(SDL_INIT_VIDEO))
-	{
-		fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-		return -1;
-	}
-	{
-		SDL_Window* pWindow = NULL;
-		SDL_Event evenement;
-		int end = 0;
+	//destination du sprite
+	SDL_Rect BGdest = winCentered(BGInfo);
+	SDL_Rect SPdest = winCentered(frame);
 
-		/* Création de la fenêtre */
-		pWindow = SDL_CreateWindow("Ma première application SDL2",
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			WIN_W, WIN_H, SDL_WINDOW_SHOWN);
+	//Copie de la texture dans le rendu
+	SDL_RenderCopy(getRenderer(),pTexture,NULL,&BGdest);
+	SDL_RenderCopy(getRenderer(),getTexSprite(),&SPClip,&SPdest);
+	//rafraichissement du rendu dans la fenetre
+	SDL_RenderPresent(getRenderer());
 
-		if(!pWindow )
-			fprintf(stderr,"Erreur de création de la fenêtre: %s\n",SDL_GetError());
-		//creation du moteur de rendu pour la fenetre
-		SDL_Renderer* pRenderer = SDL_CreateRenderer(pWindow,-1,
-								  SDL_RENDERER_ACCELERATED);
-		//chargement à l'exécution de l'image du sprite
-		SDL_Surface* pDecors = SDL_LoadBMP("./data/decors.bmp");
-		SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderer,pDecors);
-		assert(pTexture && pDecors && pRenderer);
-		//liberation des données de la surface
-		SDL_FreeSurface(pDecors);
-		//recuperation des dimensions de la texture
-		texture_info txInfo={0,0,0,0};
-		SDL_QueryTexture(pTexture,&txInfo.fmt,&txInfo.acc,&txInfo.w,&txInfo.h);
-
-		//destination du sprite
-		SDL_Rect dest =	targetZoneCentered(txInfo);	//Copie de la texture dans le rendu
-		SDL_RenderCopy(pRenderer,pTexture,NULL,&dest);
-		//rafraichissement du rendu dans la fenetre
-		SDL_RenderPresent(pRenderer);
-		//boucle principale
-		while(!end)
-		{
-			SDL_WaitEvent(&evenement);
-			switch(evenement.type)
-			{
-				case SDL_QUIT:
-				case SDL_KEYDOWN:
-					end = 1;
-					break;
-			}
-		}
-		//destruction de la texture
-		SDL_DestroyTexture(pTexture);
-		//destruction du moteur de rendu
-		SDL_DestroyRenderer(pRenderer);
-	}
+	mainEventLoop();
+	//destruction de la texture
+	SDL_DestroyTexture(pTexture);
+	SDL_DestroyTexture(getTexSprite());
+	//destruction du moteur de rendu
+	SDL_DestroyRenderer(getRenderer());
 
 	SDL_Quit();
 
 	return 0;
 }
-SDL_Rect targetZoneCentered(texture_info txi)
-{
-	SDL_Rect result = {WIN_C_W-(txi.w/2),WIN_C_H-(txi.h/2),txi.w,txi.h};
-	return result;
-}
 
+int mainEventLoop()
+{
+	int end = 0;
+	SDL_Event evenement;
+	while(!end)
+	{
+		SDL_WaitEvent(&evenement);
+		switch(evenement.type)
+		{
+			case SDL_KEYDOWN:
+				end=1;
+				SDL_RenderPresent(getRenderer());
+				break;
+		}
+	}
+return 0;
+}
+SDL_Rect winCentered(texture_info txi)
+{
+	return (SDL_Rect) {WIN_C_W-(txi.w/2),WIN_C_H-(txi.h/2),txi.w,txi.h};
+}
