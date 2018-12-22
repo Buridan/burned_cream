@@ -10,4 +10,3 @@ int _initWindow();
 int _initRenderer();
 SDL_Renderer* getRenderer();
 
-typedef struct{Uint32 fmt;int acc,w,h;}texture_info;

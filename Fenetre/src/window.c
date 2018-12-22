@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "init.h"
+#include "window.h"
 #include <assert.h>
 
 static SDL_Window* 		m_pWindow 	= NULL;
