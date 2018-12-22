@@ -2,5 +2,8 @@ Ce projet a pour but de prendre en main la librairie SDL2 pour manipuler des fen
 dependences à l'exécution:
 SDL2
 
-#TODO : ajouter l'execution automatique à la compilation
+#DONE : ajouter l'execution automatique à la compilation
 #TODO : inclure les ressources graphiques dans l'exécutable final
+#TODO : Animer le sprite principal
+#TODO : implémenter les déplacement
+#TODO : implémenter les collisions de bords de fenêtre

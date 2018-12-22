@@ -21,7 +21,7 @@ CP		 := cp -r
 $(BINDIR)/$(TARGET): $(OBJECTS)
 	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
 	@echo "Linking complete!"
-	$(MD) $(BINDIR)/$(DATADIR)
+	@$(MD) $(BINDIR)/$(DATADIR)
 	@$(CP) $(SRCDIR)/$(DATADIR) $(BINDIR)/
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
