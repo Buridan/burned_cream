@@ -6,8 +6,8 @@ Sprite loadSprite(const char *pszSpritePath)
 {
 	Sprite sprite;
 	//sprite.pTexture = NULL;
-	//sprite.srcClip	= NULL;
-	//sprite.dstClip	= NULL;
+	sprite.pSrcClip	= malloc(sizeof(SDL_Rect));
+	sprite.pDstClip	= malloc(sizeof(SDL_Rect));
 	sprite.pInfo	= malloc(sizeof(texture_info));
 	
 	SDL_Surface* pSurface = _loadSurface(pszSpritePath);
