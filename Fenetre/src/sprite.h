@@ -8,12 +8,24 @@
 //public
 typedef struct{Uint32 fmt;int acc,w,h;}texture_info;
 
+typedef struct{
+	//char *pszSpritePath;
+	//SDL_Surface* pSurface	;
+	SDL_Texture* pTexture	;
+	SDL_Rect	 srcClip	;
+	SDL_Rect	 dstClip	;
+	texture_info* pInfo		;
+}Sprite;
 
-int loadSprite(char *pszSpritePath);
-SDL_Texture* getSpriteTexture();
-texture_info getSpriteTextureInfo();
+//constructeur
+Sprite		  loadSprite(const char *pszSpritePath);
+//destructeur
+int			  destroySprite(Sprite* pSprite);
+//SDL_Texture* getSpriteTexture();
+//texture_info getSpriteTextureInfo();
 
 //private
-void _loadTexture();
-void _setTextureInfo();
+SDL_Surface* _loadSurface(const char *pszSpritePath);
+SDL_Texture* _loadTexture(SDL_Surface *pSurface);
+void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture);
 

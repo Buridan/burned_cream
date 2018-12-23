@@ -2,48 +2,62 @@
 #include <assert.h>
 #include "sprite.h"
 
-static SDL_Surface* m_pSprite 		= NULL;
-static SDL_Texture* m_pTexSprite 	= NULL;
-//static SDL_Rect		m_srcClip		= NULL;
-//static SDL_Rect		m_dstClip		= NULL;
-static texture_info m_pTexInfo		= {0,0,0,0};
-
-int loadSprite(char *pszSpritePath)
+Sprite loadSprite(const char *pszSpritePath)
 {
-	m_pSprite = SDL_LoadBMP(pszSpritePath);
-	if(!m_pSprite)
-	{
-		fprintf(stderr,"Echec de chargement du sprite : %s",SDL_GetError());
-		return -1;
-	}
-	assert(m_pSprite);
-	_loadTexture();
-	SDL_FreeSurface(m_pSprite);
+	Sprite sprite;
+	//sprite.pTexture = NULL;
+	//sprite.srcClip	= NULL;
+	//sprite.dstClip	= NULL;
+	sprite.pInfo	= malloc(sizeof(texture_info));
+	
+	SDL_Surface* pSurface = _loadSurface(pszSpritePath);
+	sprite.pTexture = _loadTexture(pSurface);
+	_loadTextureInfo( (texture_info*) sprite.pInfo, (SDL_Texture*) sprite.pTexture);
+	SDL_FreeSurface(pSurface);
+	return sprite;
+}
+int	destroySprite(Sprite* pSprite)
+{
+	SDL_DestroyTexture(pSprite->pTexture);
+	free(pSprite->pInfo);
 	return 0;
 }
 //permet de récupérer la hauteur et la largeur de l'image notamment
-texture_info getSpriteTextureInfo()
+//texture_pInfo getSpriteTextureInfo(texture_pInfo* pTxi)
+//{
+//	assert(pTxi->w && pTxi->h);
+//	return pTxi;
+//}
+//SDL_Texture* getSpriteTexture(SDL_Texture* pTexture) //deprecated
+//{
+//	return pTexture;
+//}
+
+SDL_Surface* _loadSurface(const char *pszSpritePath)
 {
-	assert(m_pTexInfo.w && m_pTexInfo.h);
-	return m_pTexInfo;
+	SDL_Surface* pSurface = SDL_LoadBMP(pszSpritePath);
+
+	if(!pSurface)
+	{
+		fprintf(stderr,"Echec de chargement du sprite : %s",SDL_GetError());
+	}
+	//assert(pSurface);
+	return pSurface;
 }
-SDL_Texture* getSpriteTexture()
+SDL_Texture* _loadTexture(SDL_Surface *pSurface)
 {
-	return m_pTexSprite;
-}
-void _loadTexture()
-{
-	m_pTexSprite = SDL_CreateTextureFromSurface(getRenderer(),m_pSprite);
-	if(!m_pTexSprite)
+	SDL_Texture* pTex = SDL_CreateTextureFromSurface(getRenderer(),pSurface);
+	if(!pTex){
 		fprintf(stderr,"Echec de chargement de la texture : %s",SDL_GetError());
-	assert(m_pTexSprite);
-	_setTextureInfo();
+	}
+	return pTex;
 }
-void _setTextureInfo()
+void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture)
 {
-	SDL_QueryTexture(m_pTexSprite,
-		&m_pTexInfo.fmt,
-		&m_pTexInfo.acc,
-		&m_pTexInfo.w,
-		&m_pTexInfo.h);
+	SDL_QueryTexture(pTexture,
+		&(pInfo->fmt),
+		&(pInfo->acc),
+		&(pInfo->w),
+		&(pInfo->h));
+	assert(pInfo->w && pInfo->h);
 }

@@ -4,7 +4,7 @@
 #define WIN_C_W WIN_W/2
 #define WIN_C_H	WIN_H/2
 
-void initAll();
+void window_initAll();
 int _initSDL();
 int _initWindow();
 int _initRenderer();

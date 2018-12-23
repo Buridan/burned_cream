@@ -5,7 +5,7 @@
 static SDL_Window* 		m_pWindow 	= NULL;
 static SDL_Renderer* 	m_pRenderer = NULL;
 
-void initAll()
+void window_initAll()
 {
 	_initSDL();
 	_initWindow();
