@@ -60,6 +60,7 @@ int mainEventLoop()
 				SDL_RenderPresent(getRenderer());
 				break;
 			}
+			break;
 		}
 	}
 return 0;
