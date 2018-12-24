@@ -7,6 +7,7 @@
 
 int mainEventLoop();
 SDL_Rect winCentered(texture_info txi);
+void renderSprite(Sprite sp);
 int main(int argc, char** argv)
 {
 	window_initAll();
@@ -17,7 +18,7 @@ int main(int argc, char** argv)
 	//texture_info BGInfo={0,0,0,0};
 
 	//SDL_QueryTexture(pTexture, &BGInfo.fmt, &BGInfo.acc, &BGInfo.w, &BGInfo.h);
-	//rectangle source du sprite
+	//source du sprite
 	*tigre.pSrcClip = (SDL_Rect){0,15,tigre.pInfo->w/2,48};
 
 	//destination du sprite
@@ -52,9 +53,13 @@ int mainEventLoop()
 		switch(evenement.type)
 		{
 			case SDL_KEYDOWN:
+			switch(evenement.key.keysym.sym)
+			{
+				case SDLK_q:
 				end=1;
 				SDL_RenderPresent(getRenderer());
 				break;
+			}
 		}
 	}
 return 0;
@@ -62,4 +67,8 @@ return 0;
 SDL_Rect winCentered(texture_info txi)
 {
 	return (SDL_Rect) {WIN_C_W-(txi.w/2),WIN_C_H-(txi.h/2),txi.w,txi.h};
+}
+void renderSprite(Sprite sp)
+{
+	SDL_RenderCopy(getRenderer(),sp.pTexture,sp.pSrcClip,sp.pDstClip);
 }
