@@ -9,7 +9,7 @@ Sprite* sprite_Load(const char *pszSpritePath)
 	Sprite* pRes;
 	if(m_spriteIndex >= MAX_SPRITE-1)
 	{
-		printf("Error : Too much sprite loaded");
+		printf("Error : Too much sprite loaded\n");
 	}
 	m_spriteList[m_spriteIndex] = _sprite_Init(pszSpritePath);
 	pRes = &(m_spriteList[m_spriteIndex]);
@@ -24,11 +24,11 @@ Sprite _sprite_Init(const char *pszSpritePath)
 	sprite.clipCount = 0;
 	//sprite.SrcClip[0]	= malloc(MAX_CLIP_COUNT * sizeof(SDL_Rect));
 	//sprite.DstClip	= malloc(sizeof(SDL_Rect));
-	sprite.pInfo	= malloc(sizeof(texture_info));
+	//sprite.pInfo	= malloc(sizeof(texture_info));
 	
 	SDL_Surface* pSurface = _loadSurface(pszSpritePath);
 	sprite.pTexture = _loadTexture(pSurface);
-	_loadTextureInfo( (texture_info*) sprite.pInfo, (SDL_Texture*) sprite.pTexture);
+	_loadTextureInfo( &sprite.Info, (SDL_Texture*) sprite.pTexture);
 	SDL_FreeSurface(pSurface);
 	return sprite;
 }
@@ -45,10 +45,18 @@ int sprite_DestroyAll()
 	};
 	return 0;
 }
+Sprite* getSprite(size_t index)
+{
+	return &(m_spriteList[index]);
+}
+Sprite* getLastSprite()
+{
+	return &(m_spriteList[m_spriteIndex-1]);
+}
 void _destroySprite(Sprite* pSprite)
 {
 	SDL_DestroyTexture(pSprite->pTexture);
-	free(pSprite->pInfo);
+	//free(pSprite->pInfo);
 	//free(pSprite->pSrcClip);
 	//pSprite = NULL;
 }
@@ -80,8 +88,4 @@ void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture)
 		&(pInfo->w),
 		&(pInfo->h));
 	assert(pInfo->w && pInfo->h);
-}
-Sprite* getSprite(size_t index)
-{
-	return &(m_spriteList[index]);
 }

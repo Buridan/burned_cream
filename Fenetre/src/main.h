@@ -1,8 +1,9 @@
 #include "window.h"
-//#include "sprite.h"
-#include "character.h"
+#include "foreground.h"
+//#include "character.h"
 enum behaviour{standing,moving,jumping};
 enum direction{N,NE,E,SE,S,SW,W,NW};
+
 
 typedef struct
 {
@@ -11,8 +12,10 @@ typedef struct
 
 typedef struct
 {
-	Sprite* pSprite;
-}Foreground;
+	Foreground* pFg;
+	enum direction dir;
+	enum behaviour bhv;
+}Character;
 
 int mainEventLoop();
 SDL_Rect winCentered(texture_info txi);

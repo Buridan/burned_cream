@@ -8,8 +8,7 @@ int main(int argc, char** argv)
 {
 	window_initAll();
 	Background decors;
-	Foreground tigre;
-	tigre.pSprite  = sprite_Load("./data/spritesheet.bmp");
+	Foreground* tigre = foreground_Load("./data/spritesheet.bmp");
 	decors.pSprite = sprite_Load("./data/decors.bmp");
 
 	//recuperation des dimensions de la texture
@@ -19,16 +18,16 @@ int main(int argc, char** argv)
 	//source du sprite
 	for(size_t i=0;i<MAX_CLIP_COUNT;i++)
 	{
-		tigre.pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre.pSprite->pInfo->w/6,48};
+		tigre->pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre->pSprite->Info.w/6,48};
 	}
 
 	//destination du sprite
-	decors.pSprite->DstClip = winCentered(*decors.pSprite->pInfo);
-	tigre.pSprite->DstClip  = (SDL_Rect){0,0,64,48};
+	decors.pSprite->DstClip = winCentered(decors.pSprite->Info);
+	tigre->pSprite->DstClip  = (SDL_Rect){0,0,64,48};
 
 	//Copie de la texture dans le rendu
 	SDL_RenderCopy(getRenderer(),decors.pSprite->pTexture,NULL,&(decors.pSprite->DstClip));
-	renderSprite(tigre.pSprite);
+	renderSprite(tigre->pSprite);
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
@@ -110,8 +109,8 @@ void refreshAnimation()
 	//printf("last time : %d\n current time : %d\n",lTime,cTime);
 	if(cTime > (lTime + 200))
 	{
-		Sprite* tgr = getSprite(0);
-		renderSprite(tgr);
+		Foreground* tgr = getFg(0);
+		renderSprite(tgr->pSprite);
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
 	}

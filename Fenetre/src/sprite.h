@@ -14,7 +14,7 @@ typedef struct{
 	SDL_Rect	 SrcClip[MAX_CLIP_COUNT];
 	size_t 		 clipCount;
 	SDL_Rect	 DstClip	;
-	texture_info* pInfo		;
+	texture_info Info		;
 }Sprite;
 
 //public
@@ -23,11 +23,13 @@ Sprite*		 sprite_Load(const char *pszSpritePath);
 //destructeur
 int			 sprite_DestroyAll();
 
+//getters
 Sprite* getSprite(size_t index);
+Sprite* getLastSprite();
 //private
 Sprite 		 _sprite_Init(const char *pszSpritePath);
 void		 _destroySprite(Sprite* pSprite);
 SDL_Surface* _loadSurface(const char *pszSpritePath);
 SDL_Texture* _loadTexture(SDL_Surface *pSurface);
-void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture);
+void 		 _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture);
 
