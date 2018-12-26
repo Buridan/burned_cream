@@ -2,12 +2,28 @@
 #include <assert.h>
 #include "sprite.h"
 
-Sprite loadSprite(const char *pszSpritePath)
+static Sprite m_spriteList[MAX_SPRITE];
+static int m_spriteIndex=0;
+Sprite* sprite_Load(const char *pszSpritePath)
+{
+	Sprite* pRes;
+	if(m_spriteIndex >= MAX_SPRITE-1)
+	{
+		printf("Error : Too much sprite loaded");
+	}
+	m_spriteList[m_spriteIndex] = _sprite_Init(pszSpritePath);
+	pRes = &(m_spriteList[m_spriteIndex]);
+	m_spriteIndex++;
+	return pRes;
+}
+Sprite _sprite_Init(const char *pszSpritePath)
 {
 	Sprite sprite;
 	//sprite.pTexture = NULL;
-	sprite.pSrcClip	= malloc(sizeof(SDL_Rect));
-	sprite.pDstClip	= malloc(sizeof(SDL_Rect));
+	sprite.index = m_spriteIndex;
+	sprite.clipCount = 0;
+	//sprite.SrcClip[0]	= malloc(MAX_CLIP_COUNT * sizeof(SDL_Rect));
+	//sprite.DstClip	= malloc(sizeof(SDL_Rect));
 	sprite.pInfo	= malloc(sizeof(texture_info));
 	
 	SDL_Surface* pSurface = _loadSurface(pszSpritePath);
@@ -16,22 +32,26 @@ Sprite loadSprite(const char *pszSpritePath)
 	SDL_FreeSurface(pSurface);
 	return sprite;
 }
-int	destroySprite(Sprite* pSprite)
+int sprite_DestroyAll()
+{
+	Sprite* pSpriteToDestroy;
+	m_spriteIndex--;
+	while(-1!=m_spriteIndex)
+	{
+		printf("destroying sprite %d : %ph\n",m_spriteIndex,(void*) &m_spriteList[m_spriteIndex]);
+		pSpriteToDestroy = &m_spriteList[m_spriteIndex];
+		_destroySprite(pSpriteToDestroy);
+		m_spriteIndex--;
+	};
+	return 0;
+}
+void _destroySprite(Sprite* pSprite)
 {
 	SDL_DestroyTexture(pSprite->pTexture);
 	free(pSprite->pInfo);
-	return 0;
+	//free(pSprite->pSrcClip);
+	//pSprite = NULL;
 }
-//permet de récupérer la hauteur et la largeur de l'image notamment
-//texture_pInfo getSpriteTextureInfo(texture_pInfo* pTxi)
-//{
-//	assert(pTxi->w && pTxi->h);
-//	return pTxi;
-//}
-//SDL_Texture* getSpriteTexture(SDL_Texture* pTexture) //deprecated
-//{
-//	return pTexture;
-//}
 
 SDL_Surface* _loadSurface(const char *pszSpritePath)
 {
@@ -39,7 +59,7 @@ SDL_Surface* _loadSurface(const char *pszSpritePath)
 
 	if(!pSurface)
 	{
-		fprintf(stderr,"Echec de chargement du sprite : %s",SDL_GetError());
+		fprintf(stderr,"Echec de chargement du sprite : %s\n",SDL_GetError());
 	}
 	//assert(pSurface);
 	return pSurface;
@@ -60,4 +80,8 @@ void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture)
 		&(pInfo->w),
 		&(pInfo->h));
 	assert(pInfo->w && pInfo->h);
+}
+Sprite* getSprite(size_t index)
+{
+	return &(m_spriteList[index]);
 }

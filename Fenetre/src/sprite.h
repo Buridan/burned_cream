@@ -4,24 +4,29 @@
 	@author : Busyvar
 	@brief : goal of this lib is to make a texture for any kind of visual game element.
 */
-//public
+#define MAX_CLIP_COUNT	6
+#define MAX_SPRITE 3
 typedef struct{Uint32 fmt;int acc,w,h;}texture_info;
 
 typedef struct{
+	size_t index;
 	SDL_Texture* pTexture	;
-	SDL_Rect*	 pSrcClip	;
-	SDL_Rect*	 pDstClip	;
+	SDL_Rect	 SrcClip[MAX_CLIP_COUNT];
+	size_t 		 clipCount;
+	SDL_Rect	 DstClip	;
 	texture_info* pInfo		;
 }Sprite;
 
+//public
 //constructeur
-Sprite		  loadSprite(const char *pszSpritePath);
+Sprite*		 sprite_Load(const char *pszSpritePath);
 //destructeur
-int			  destroySprite(Sprite* pSprite);
-//SDL_Texture* getSpriteTexture();
-//texture_info getSpriteTextureInfo();
+int			 sprite_DestroyAll();
 
+Sprite* getSprite(size_t index);
 //private
+Sprite 		 _sprite_Init(const char *pszSpritePath);
+void		 _destroySprite(Sprite* pSprite);
 SDL_Surface* _loadSurface(const char *pszSpritePath);
 SDL_Texture* _loadTexture(SDL_Surface *pSurface);
 void _loadTextureInfo(texture_info* pInfo, SDL_Texture* pTexture);
