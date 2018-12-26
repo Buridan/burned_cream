@@ -7,8 +7,10 @@
 int main(int argc, char** argv)
 {
 	window_initAll();
-	Sprite* tigre  = sprite_Load("./data/spritesheet.bmp");
-	Sprite* decors = sprite_Load("./data/decors.bmp");
+	Background decors;
+	Foreground tigre;
+	tigre.pSprite  = sprite_Load("./data/spritesheet.bmp");
+	decors.pSprite = sprite_Load("./data/decors.bmp");
 
 	//recuperation des dimensions de la texture
 	//texture_info BGInfo={0,0,0,0};
@@ -17,17 +19,16 @@ int main(int argc, char** argv)
 	//source du sprite
 	for(size_t i=0;i<MAX_CLIP_COUNT;i++)
 	{
-		tigre->SrcClip[i] = (SDL_Rect){128 * i,15,tigre->pInfo->w/6,48};
+		tigre.pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre.pSprite->pInfo->w/6,48};
 	}
 
 	//destination du sprite
-	decors->DstClip = winCentered(*decors->pInfo);
-	tigre->DstClip  = (SDL_Rect){0,0,64,48};
+	decors.pSprite->DstClip = winCentered(*decors.pSprite->pInfo);
+	tigre.pSprite->DstClip  = (SDL_Rect){0,0,64,48};
 
 	//Copie de la texture dans le rendu
-	SDL_RenderCopy(getRenderer(),decors->pTexture,NULL,&(decors->DstClip));
-	renderSprite(tigre);
-	//SDL_RenderCopy(getRenderer(),tigre.pTexture,tigre.pSrcClip[0],tigre.pDstClip);
+	SDL_RenderCopy(getRenderer(),decors.pSprite->pTexture,NULL,&(decors.pSprite->DstClip));
+	renderSprite(tigre.pSprite);
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
