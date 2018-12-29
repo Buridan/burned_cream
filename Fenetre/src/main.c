@@ -18,12 +18,12 @@ int main(int argc, char** argv)
 	//source du sprite
 	for(size_t i=0;i<MAX_CLIP_COUNT;i++)
 	{
-		tigre->pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre->pSprite->Info.w/6,48};
+		tigre->pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre->pSprite->Info.w/8,48};
 	}
 
 	//destination du sprite
 	decors.pSprite->DstClip = winCentered(decors.pSprite->Info);
-	tigre->pSprite->DstClip  = (SDL_Rect){0,0,64,48};
+	tigre->pSprite->DstClip  = (SDL_Rect){0,0,128,48};
 
 	//Copie de la texture dans le rendu
 	SDL_RenderCopy(getRenderer(),decors.pSprite->pTexture,NULL,&(decors.pSprite->DstClip));

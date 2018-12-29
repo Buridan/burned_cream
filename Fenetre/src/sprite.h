@@ -4,7 +4,7 @@
 	@author : Busyvar
 	@brief : goal of this lib is to make a texture for any kind of visual game element.
 */
-#define MAX_CLIP_COUNT	6
+#define MAX_CLIP_COUNT	8
 #define MAX_SPRITE 3
 typedef struct{Uint32 fmt;int acc,w,h;}texture_info;
 
