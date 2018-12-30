@@ -48,14 +48,17 @@ int mainEventLoop()
 	Foreground* tgr = getFg(0);
 	tgr->bhv = standing;
 	tgr->dir = E;
-	unsigned char dirMask;
+	unsigned char dirMask=0;
 	SDL_Event evenement;
 	printf("Starts main loop\n");
 	while(!end)
 	{
 		SDL_PollEvent(&evenement);
+		refreshPosition(dirMask);
 		if(tgr->bhv == moving)
-			refreshAnimation();
+		{
+			refreshAnimation(ANIM_FPS);
+		}
 		switch(evenement.type)
 		{
 			case SDL_KEYDOWN:
@@ -64,16 +67,10 @@ int mainEventLoop()
 					case SDLK_q:
 						end=1;
 					break;
-					case SDLK_UP:
-						dirMask |= 8;
-					case SDLK_DOWN:
-						dirMask |= 4;
-					case SDLK_LEFT:
-						dirMask |= 2;
-					case SDLK_RIGHT:
-						dirMask |= 1;
-						tgr->bhv=moving;
-					break;
+					case SDLK_UP: dirMask 	 |= 8; break;
+					case SDLK_DOWN: dirMask  |= 4; break;
+					case SDLK_LEFT: dirMask  |= 2; break;
+					case SDLK_RIGHT: dirMask |= 1; break;
 
 				}
 			break;
@@ -81,18 +78,12 @@ int mainEventLoop()
 				switch(evenement.key.keysym.sym)
 				{
 					case SDLK_r:
-					printf("r released\n");
+						printf("r released\n");
 					break;
-					case SDLK_UP:
-						dirMask &= 7;
-					case SDLK_DOWN:
-						dirMask &= 11;
-					case SDLK_LEFT:
-						dirMask &= 13;
-					case SDLK_RIGHT:
-						dirMask &= 14;
-						tgr->bhv=standing;
-					break;
+					case SDLK_UP: dirMask 	 &= 7 ; break;
+					case SDLK_DOWN: dirMask  &= 11; break;
+					case SDLK_LEFT: dirMask  &= 13; break;
+					case SDLK_RIGHT: dirMask &= 14; break;
 				}
 			break;
 			default:
@@ -113,20 +104,76 @@ void renderSprite(Sprite* sp)
 	//printf("%zu\n",sp->clipCount);
 	sp->clipCount = (sp->clipCount+1) % MAX_CLIP_COUNT;
 }
-void refreshAnimation()
+void refreshAnimation(unsigned char fps)
 {
 	static unsigned int cTime, lTime;
 	cTime = SDL_GetTicks();
 	//printf("last time : %d\n current time : %d\n",lTime,cTime);
-	if(cTime > (lTime + 200))
+	if(cTime > (lTime + (1000/fps)))
 	{
 		Foreground* tgr = getFg(0);
+		moveCharacter();
+
 		renderSprite(tgr->pSprite);
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
 	}
 }
-void refreshPosition(enum direction dir)
+void refreshPosition(unsigned char dirMask)
 {
-	
+	enum direction dir;
+	enum behaviour bhv;
+
+	bhv=moving;
+	switch(dirMask)
+	{
+		//orthos
+		case 1: dir=E; break;
+		case 2: dir=W; break;
+		case 4: dir=S; break;
+		case 8: dir=N; break;
+		//diags
+		case 5: dir=SE; break;
+		case 6: dir=SW; break;
+		case 9: dir=NE; break;
+		case 10:dir=NW; break;
+
+		default :
+		bhv = standing;
+		break;
+	}
+	getFg(0)->dir = dir;
+	getFg(0)->bhv = bhv;
+}
+void moveCharacter()
+{
+	enum direction dir = getFg(0)->dir;
+	SDL_Rect* pPos = &(getFg(0)->pSprite->DstClip);
+	switch(dir)
+	{
+		case E:
+			pPos->x++;
+		break;
+		case W:
+			pPos->x--;
+		break;
+		case S:
+			pPos->y++;
+		break;
+		case N:
+			pPos->y--;
+		break;
+		case SE:
+		break;
+		case SW:
+		break;
+		case NE:
+		break;
+		case NW:
+		break;
+	}
+
+	printf("x:%d y:%d\n"
+	,getFg(0)->pSprite->DstClip.x 
+	,getFg(0)->pSprite->DstClip.y);
 }
