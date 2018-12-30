@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 		tigre->pSprite->SrcClip[i] = (SDL_Rect){128 * i,15,tigre->pSprite->Info.w/8,48};
 	}
 
-	//destination du sprite
+	//destination de depart du sprite
 	decors.pSprite->DstClip = winCentered(decors.pSprite->Info);
 	tigre->pSprite->DstClip  = (SDL_Rect){0,0,128,48};
 
@@ -45,13 +45,16 @@ int main(int argc, char** argv)
 int mainEventLoop()
 {
 	int end = 0;
-	enum behaviour bhv = standing;
+	Foreground* tgr = getFg(0);
+	tgr->bhv = standing;
+	tgr->dir = E;
+	unsigned char dirMask;
 	SDL_Event evenement;
 	printf("Starts main loop\n");
 	while(!end)
 	{
 		SDL_PollEvent(&evenement);
-		if(bhv == moving)
+		if(tgr->bhv == moving)
 			refreshAnimation();
 		switch(evenement.type)
 		{
@@ -62,10 +65,14 @@ int mainEventLoop()
 						end=1;
 					break;
 					case SDLK_UP:
+						dirMask |= 8;
 					case SDLK_DOWN:
+						dirMask |= 4;
 					case SDLK_LEFT:
+						dirMask |= 2;
 					case SDLK_RIGHT:
-						bhv=moving;
+						dirMask |= 1;
+						tgr->bhv=moving;
 					break;
 
 				}
@@ -77,10 +84,14 @@ int mainEventLoop()
 					printf("r released\n");
 					break;
 					case SDLK_UP:
+						dirMask &= 7;
 					case SDLK_DOWN:
+						dirMask &= 11;
 					case SDLK_LEFT:
+						dirMask &= 13;
 					case SDLK_RIGHT:
-						bhv=standing;
+						dirMask &= 14;
+						tgr->bhv=standing;
 					break;
 				}
 			break;

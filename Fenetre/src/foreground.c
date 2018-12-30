@@ -13,6 +13,7 @@ Foreground* foreground_Load(const char* pszFilePath)
 	}
 	//sprite_Load(pszFilePath);
 	m_fgList[m_fgIndex].pSprite = sprite_Load(pszFilePath);
+	m_fgList[m_fgIndex].bhv = standing;
 	//m_fgList[m_fgIndex].pSprite = getLastSprite();
 	pFg = (Foreground*) &(m_fgList[m_fgIndex]);
 	m_fgIndex++;

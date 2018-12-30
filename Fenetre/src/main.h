@@ -1,8 +1,6 @@
 #include "window.h"
 #include "foreground.h"
 //#include "character.h"
-enum behaviour{standing,moving,jumping};
-enum direction{N,NE,E,SE,S,SW,W,NW};
 
 
 typedef struct
@@ -13,8 +11,8 @@ typedef struct
 typedef struct
 {
 	Foreground* pFg;
-	enum direction dir;
-	enum behaviour bhv;
+//	enum direction dir;
+//	enum behaviour bhv;
 }Character;
 
 int mainEventLoop();
