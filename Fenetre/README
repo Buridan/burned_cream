@@ -4,6 +4,6 @@ SDL2
 
 #DONE : ajouter l'execution automatique à la compilation
 #TODO : inclure les ressources graphiques dans l'exécutable final
-#TODO : Animer le sprite principal
-#TODO : implémenter les déplacement
+#DONE : Animer le sprite principal
+#DONE : implémenter les déplacement
 #TODO : implémenter les collisions de bords de fenêtre
