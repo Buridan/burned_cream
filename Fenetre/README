@@ -6,4 +6,10 @@ SDL2
 #TODO : inclure les ressources graphiques dans l'exécutable final
 #DONE : Animer le sprite principal
 #DONE : implémenter les déplacement
-#TODO : implémenter les collisions de bords de fenêtre
+#TODO : implémenter des collisions sur les bords de fenêtre
+#TODO : faire spawner le personnage / détruire le personnage
+#TODO : fournir une animation de idling pour le personnage
+#TODO : implémenter un piège fixe
+#TODO : implémenter un piège mobile
+#TODO : implémenter un ennemi avec un pathfind pour attaquer
+#TODO : implémenter un ennemi qui tir à distance.
