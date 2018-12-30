@@ -55,7 +55,7 @@ int mainEventLoop()
 	while(!end)
 	{
 		SDL_PollEvent(&evenement);
-		refreshPosition(dirMask);
+		setDirection(dirMask);
 		if(tgr->bhv == moving)
 		{
 			refreshAnimation(ANIM_FPS);
@@ -99,17 +99,19 @@ SDL_Rect winCentered(texture_info txi)
 }
 void renderSprite(Sprite* sp)
 {
-	SDL_RenderCopy(getRenderer(),sp->pTexture,
+	if(SDL_RenderCopy(getRenderer(),sp->pTexture,
 		&(sp->SrcClip[sp->clipCount]),
-		&(sp->DstClip));
+		&(sp->DstClip)))
+		fprintf(stderr,"Echec de copie : %s\n",SDL_GetError());
 	//printf("%zu\n",sp->clipCount);
 	sp->clipCount = (sp->clipCount+1) % MAX_CLIP_COUNT;
 }
 void renderBackground(Sprite* bg)
 {
-	SDL_RenderCopy(getRenderer(),bg->pTexture,
+	if(SDL_RenderCopy(getRenderer(),bg->pTexture,
 		&(bg->SrcClip[0]),
-		&(bg->DstClip));
+		&(bg->DstClip)))
+		fprintf(stderr,"Echec de copie : %s\n",SDL_GetError());
 }
 void refreshAnimation(unsigned char fps)
 {
@@ -128,7 +130,7 @@ void refreshAnimation(unsigned char fps)
 		lTime = cTime;
 	}
 }
-void refreshPosition(unsigned char dirMask)
+void setDirection(unsigned char dirMask)
 {
 	enum direction dir;
 	enum behaviour bhv;
@@ -156,7 +158,7 @@ void refreshPosition(unsigned char dirMask)
 }
 void moveCharacter()
 {
-	float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
+	const float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
 	const int pas = 10; //10 pixels par pas sinon les diagonales seraient carrés
 	const int pasDiag = qPi * pas;
 	enum direction dir = getFg(0)->dir;
@@ -184,8 +186,5 @@ void moveCharacter()
 		pPos->y -= pasDiag;
 		break;
 	}
-
-	printf("x:%d y:%d\n"
-	,getFg(0)->pSprite->DstClip.x 
-	,getFg(0)->pSprite->DstClip.y);
+	//printf("x:%d y:%d\n",pPos->x,pPos->y); 
 }
