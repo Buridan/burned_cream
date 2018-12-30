@@ -156,29 +156,32 @@ void refreshPosition(unsigned char dirMask)
 }
 void moveCharacter()
 {
+	float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
+	const int pas = 10; //10 pixels par pas sinon les diagonales seraient carrés
+	const int pasDiag = qPi * pas;
 	enum direction dir = getFg(0)->dir;
 	SDL_Rect* pPos = &(getFg(0)->pSprite->DstClip);
 	switch(dir)
 	{
-		case E:
-			pPos->x++;
-		break;
-		case W:
-			pPos->x--;
-		break;
-		case S:
-			pPos->y++;
-		break;
-		case N:
-			pPos->y--;
-		break;
+		case E: pPos->x+=pas; break;
+		case W: pPos->x-=pas; break;
+		case S: pPos->y+=pas; break;
+		case N: pPos->y-=pas; break;
 		case SE:
+		pPos->x += pasDiag;
+		pPos->y += pasDiag;
 		break;
 		case SW:
+		pPos->x -= pasDiag;
+		pPos->y += pasDiag;
 		break;
 		case NE:
+		pPos->x += pasDiag;
+		pPos->y -= pasDiag;
 		break;
 		case NW:
+		pPos->x -= pasDiag;
+		pPos->y -= pasDiag;
 		break;
 	}
 
