@@ -18,6 +18,7 @@ typedef struct
 int mainEventLoop();
 SDL_Rect winCentered(texture_info txi);
 void renderSprite(Sprite* sp);
+void renderBackground(Sprite* bg);
 void refreshAnimation(unsigned char fps);
 void refreshPosition(unsigned char dirMask);
 void moveCharacter();

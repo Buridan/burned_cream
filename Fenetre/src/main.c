@@ -26,8 +26,9 @@ int main(int argc, char** argv)
 	tigre->pSprite->DstClip  = (SDL_Rect){0,0,128,48};
 
 	//Copie de la texture dans le rendu
-	SDL_RenderCopy(getRenderer(),decors.pSprite->pTexture,NULL,&(decors.pSprite->DstClip));
+	renderBackground(decors.pSprite);
 	renderSprite(tigre->pSprite);
+	//renderSprite(decors.pSprite);
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
@@ -104,6 +105,12 @@ void renderSprite(Sprite* sp)
 	//printf("%zu\n",sp->clipCount);
 	sp->clipCount = (sp->clipCount+1) % MAX_CLIP_COUNT;
 }
+void renderBackground(Sprite* bg)
+{
+	SDL_RenderCopy(getRenderer(),bg->pTexture,
+		&(bg->SrcClip[0]),
+		&(bg->DstClip));
+}
 void refreshAnimation(unsigned char fps)
 {
 	static unsigned int cTime, lTime;
@@ -112,8 +119,10 @@ void refreshAnimation(unsigned char fps)
 	if(cTime > (lTime + (1000/fps)))
 	{
 		Foreground* tgr = getFg(0);
+		Sprite* pBgSprite = getSprite(1);
 		moveCharacter();
 
+		renderBackground(pBgSprite);
 		renderSprite(tgr->pSprite);
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
