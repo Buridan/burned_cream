@@ -13,3 +13,4 @@ SDL2
 #TODO : implémenter un piège mobile
 #TODO : implémenter un ennemi avec un pathfind pour attaquer
 #TODO : implémenter un ennemi qui tir à distance.
+#TODO : gérer la transparence du sprite principal (nb. utiliser setColorKey sur la surface)
