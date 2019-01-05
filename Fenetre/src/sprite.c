@@ -3,7 +3,7 @@
 #include "sprite.h"
 
 static Sprite m_spriteList[MAX_SPRITE];
-static int m_spriteIndex=0;
+static byte_t m_spriteIndex=0;
 Sprite* sprite_Load(const char *pszSpritePath)
 {
 	Sprite* pRes;
@@ -36,7 +36,7 @@ int sprite_DestroyAll()
 {
 	Sprite* pSpriteToDestroy;
 	m_spriteIndex--;
-	while(-1!=m_spriteIndex)
+	while(255!=m_spriteIndex) // 255 = byte underflow
 	{
 		printf("destroying sprite %d : %ph\n",m_spriteIndex,(void*) &m_spriteList[m_spriteIndex]);
 		pSpriteToDestroy = &m_spriteList[m_spriteIndex];
@@ -45,7 +45,7 @@ int sprite_DestroyAll()
 	};
 	return 0;
 }
-Sprite* getSprite(size_t index)
+Sprite* getSprite(byte_t index)
 {
 	return &(m_spriteList[index]);
 }

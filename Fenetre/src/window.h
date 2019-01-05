@@ -4,6 +4,8 @@
 #define WIN_C_W WIN_W/2
 #define WIN_C_H	WIN_H/2
 
+typedef unsigned char byte_t;
+
 void window_initAll();
 int _initSDL();
 int _initWindow();

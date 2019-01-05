@@ -9,10 +9,10 @@
 typedef struct{Uint32 fmt;int acc,w,h;}texture_info;
 
 typedef struct{
-	size_t index;
+	byte_t index;
 	SDL_Texture* pTexture	;
 	SDL_Rect	 SrcClip[MAX_CLIP_COUNT];
-	size_t 		 clipCount;
+	byte_t 		 clipCount;
 	SDL_Rect	 DstClip	;
 	texture_info Info		;
 }Sprite;
@@ -24,7 +24,7 @@ Sprite*		 sprite_Load(const char *pszSpritePath);
 int			 sprite_DestroyAll();
 
 //getters
-Sprite* getSprite(size_t index);
+Sprite* getSprite(byte_t index);
 Sprite* getLastSprite();
 //private
 Sprite 		 _sprite_Init(const char *pszSpritePath);
