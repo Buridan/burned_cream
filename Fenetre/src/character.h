@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
-#include "sprite.h"
+#include "foreground.h"
 #include <math.h>
+#define MAX_CH	MAX_FG
+#define MAX_NAME 16
 /*
  * Brief : représente l'état du personnage
  * nb.Ce n'est pas un personnage de JDR, il n'a pas de caractéristique et de hasard entourant sa création.
@@ -23,20 +25,30 @@
  * 		pistolet à fusée	sabre			à fragmentation
  * 		tromblon
  */
+enum behaviour{standing,moving,jumping};
+enum direction{N,NE,E,SE,S,SW,W,NW};
+
 typedef struct
 {
-	size_t PV, PO, LVL;
-	Sprite*  sprite;
+	char name[MAX_NAME];
+	char PV, PO, LVL;
+	Foreground fg;
 	SDL_Rect position;
+	enum direction dir;
+	enum behaviour bhv;
 }Character;
 
 //crée un nouveau personnage
-Character character_init();
+Character* character_Init();
 //détruit le personnage
-void character_destroy(Character* pCh);
+void character_Destroy(Character* pCh);
+void character_DestroyAll();
+
+//getter
+Character* getCh(byte_t b);
 //tue le personnage
-void character_kill(Character* pCh);
+void character_Kill(Character* pCh);
 //sauvegarde le personnage
-int character_save();
+int character_Save();
 //charge le personnage
-int character_load();
+int character_Load();

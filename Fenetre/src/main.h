@@ -1,24 +1,12 @@
 #include "window.h"
-#include "foreground.h"
-//#include "character.h"
-
-
-typedef struct
-{
-	Sprite* pSprite;
-}Background;
-
-typedef struct
-{
-	Foreground* pFg;
-//	enum direction dir;
-//	enum behaviour bhv;
-}Character;
+#include "background.h"
+#include "character.h"
 
 int mainEventLoop();
 SDL_Rect winCentered(texture_info txi);
 void renderSprite(Sprite* sp);
-void renderBackground(Sprite* bg);
+void renderForeground(Foreground* fg);
+void renderBackground(Background* bg);
 void refreshAnimation(unsigned char fps);
-void setDirection(unsigned char dirMask);
+void setDirection(const byte_t dirMask);
 void moveCharacter();
