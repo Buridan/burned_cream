@@ -63,10 +63,10 @@ int mainEventLoop()
 					case SDLK_q:
 						end=1;
 					break;
-					case SDLK_UP: dirMask 	 |= 8; break;
-					case SDLK_DOWN: dirMask  |= 4; break;
-					case SDLK_LEFT: dirMask  |= 2; break;
-					case SDLK_RIGHT: dirMask |= 1; break;
+					case SDLK_k: case SDLK_UP: dirMask 	 |= 8; break;
+					case SDLK_j: case SDLK_DOWN: dirMask  |= 4; break;
+					case SDLK_h: case SDLK_LEFT: dirMask  |= 2; break;
+					case SDLK_l: case SDLK_RIGHT: dirMask |= 1; break;
 
 				}
 			break;
@@ -76,10 +76,10 @@ int mainEventLoop()
 					case SDLK_r:
 						printf("r released\n");
 					break;
-					case SDLK_UP: dirMask 	 &= 7 ; break;
-					case SDLK_DOWN: dirMask  &= 11; break;
-					case SDLK_LEFT: dirMask  &= 13; break;
-					case SDLK_RIGHT: dirMask &= 14; break;
+					case SDLK_k: case SDLK_UP: dirMask 	 &= 7 ; break;
+					case SDLK_j: case SDLK_DOWN: dirMask  &= 11; break;
+					case SDLK_h: case SDLK_LEFT: dirMask  &= 13; break;
+					case SDLK_l: case SDLK_RIGHT: dirMask &= 14; break;
 				}
 			break;
 			default:
