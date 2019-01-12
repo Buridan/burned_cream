@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 	//Copie de la texture dans le rendu
 	renderBackground(decors);
-	renderForeground(&(tigre->fg));
+	character_copyToRender(tigre);
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
@@ -88,16 +88,6 @@ int mainEventLoop()
 	}
 return 0;
 }
-void renderForeground(Foreground* fg)
-{
-	fg->srcRect = (fg->srcClip[fg->clipCount]);
-	if(SDL_RenderCopy(getRenderer(),fg->sprite.pTexture,
-		&(fg->srcRect),
-		&(fg->dstRect)))
-		fprintf(stderr,"Echec de copie : %s\n",SDL_GetError());
-	//printf("%zu\n",sp->clipCount);
-	fg->clipCount = (fg->clipCount+1) % MAX_CLIP_COUNT;
-}
 void renderBackground(Background* bg)
 {
 	if(SDL_RenderCopy(getRenderer(),bg->sprite.pTexture,
@@ -117,7 +107,7 @@ void refreshAnimation(unsigned char fps)
 		moveCharacter();
 
 		renderBackground(pBg);
-		renderForeground(&(pTgr->fg));
+		character_copyToRender(pTgr);
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
 	}

@@ -13,3 +13,4 @@ typedef struct
 }Foreground;
 
 Foreground foreground_Load(const char* pszFilePath);
+void foreground_copyToRender(Foreground* fg);

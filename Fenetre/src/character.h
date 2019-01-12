@@ -45,6 +45,8 @@ void character_DestroyAll();
 
 //getter
 Character* getCh(byte_t b);
+
+void character_copyToRender(Character* ch);
 //tue le personnage
 void character_Kill(Character* pCh);
 //sauvegarde le personnage

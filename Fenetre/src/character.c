@@ -45,3 +45,8 @@ Character* getCh(byte_t b)
 {
 	return &(m_chList[b]);
 }
+void character_copyToRender(Character* ch)
+{
+	foreground_copyToRender(&ch->fg);
+}
+	
