@@ -9,8 +9,8 @@ static int m_chLoaded=0;
 Character* character_Init(char* pszFilePath)
 {
 	Character cha;
-	m_chLoaded++;
-	if(m_chLoaded >= MAX_CH-1)
+	printf("new character: %d/%d\n",m_chLoaded+1,MAX_CH);
+	if(m_chLoaded >= MAX_CH)
 	{
 		printf("Error : Too much character loaded\n");
 	}
@@ -19,11 +19,13 @@ Character* character_Init(char* pszFilePath)
 	cha.bhv = standing;
 	//m_fgList[m_fgIndex].pSprite = getLastSprite();
 	m_chList[m_chLoaded] = cha;
-	return &(m_chList[m_chLoaded]);
+	m_chLoaded++;
+	return &(m_chList[m_chLoaded-1]);
 }	
 void character_DestroyAll()
 {
-	while(m_chLoaded>0)
+	m_chLoaded--;
+	while(m_chLoaded>=0)
 	{
 		sprite_Destroy(&(m_chList[m_chLoaded].fg.sprite));
 		m_chLoaded--;

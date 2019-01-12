@@ -7,7 +7,7 @@
 int main(int argc, char** argv)
 {
 	window_initAll();
-	Character* tigre = foreground_Load("./data/spritesheet.bmp");
+	Character* tigre = character_Init("./data/spritesheet.bmp");
 	Background* decors = background_Load("./data/decors.bmp");
 
 	//recuperation des dimensions de la texture
@@ -15,25 +15,21 @@ int main(int argc, char** argv)
 
 	//SDL_QueryTexture(pTexture, &BGInfo.fmt, &BGInfo.acc, &BGInfo.w, &BGInfo.h);
 	//source du sprite
-	for(size_t i=0;i<MAX_CLIP_COUNT;i++)
-	{
-		tigre->fg.SrcClip[i] = (SDL_Rect){128 * i,15,tigre->fg.sprite.info.w/8,48};
-	}
 
 	//destination de depart du sprite
-	decors->fg.dstRect = winCentered(decors->fg.sprite.info);
+	decors->dstRect = background_setCentered(decors);
 	tigre->fg.dstRect  = (SDL_Rect){0,0,128,48};
 
 	//Copie de la texture dans le rendu
 	renderBackground(decors);
-	renderSprite(tigre->fg.sprite);
-	//renderSprite(decors.pSprite);
+	renderForeground(&(tigre->fg));
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
 	mainEventLoop();
-	//destruction de tout les sprites
-	sprite_DestroyAll();
+	//destruction de tout les assets
+	character_DestroyAll();
+	background_DestroyAll();
 	//destruction du moteur de rendu
 	SDL_DestroyRenderer(getRenderer());
 
@@ -45,7 +41,7 @@ int main(int argc, char** argv)
 int mainEventLoop()
 {
 	int end = 0;
-	Foreground* tgr = getCh(1);
+	Character* tgr = getCh(0);
 	tgr->bhv = standing;
 	tgr->dir = E;
 	unsigned char dirMask=0;
@@ -92,10 +88,6 @@ int mainEventLoop()
 	}
 return 0;
 }
-SDL_Rect winCentered(texture_info txi)
-{
-	return (SDL_Rect) {WIN_C_W-(txi.w/2),WIN_C_H-(txi.h/2),txi.w,txi.h};
-}
 void renderForeground(Foreground* fg)
 {
 	fg->srcRect = (fg->srcClip[fg->clipCount]);
@@ -120,13 +112,12 @@ void refreshAnimation(unsigned char fps)
 	//printf("last time : %d\n current time : %d\n",lTime,cTime);
 	if(cTime > (lTime + (1000/fps)))
 	{
-		Character* pTgr = getCh(1);
-		Background* pBg = getBg(1);
+		Character* pTgr = getCh(0);
+		Background* pBg = getBg(0);
 		moveCharacter();
 
 		renderBackground(pBg);
 		renderForeground(&(pTgr->fg));
-		//renderSprite(pTgr->fg.sprite);
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
 	}
@@ -154,16 +145,16 @@ void setDirection(const byte_t dirMask)
 		bhv = standing;
 		break;
 	}
-	getCh(1)->dir = dir; //!! nous ne savons pas à quel perso cette direction doit s'appliquer
-	getCh(1)->bhv = bhv;
+	getCh(0)->dir = dir; //!! nous ne savons pas à quel perso cette direction doit s'appliquer
+	getCh(0)->bhv = bhv;
 }
 void moveCharacter()
 {
 	const float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
 	const int pas = 10; //10 pixels par pas sinon les diagonales seraient carrés
 	const int pasDiag = qPi * pas;
-	enum direction dir = getCh(1)->dir;
-	SDL_Rect* pPos = &(getCh(1)->fg.dstRect);
+	enum direction dir = getCh(0)->dir;
+	SDL_Rect* pPos = &(getCh(0)->fg.dstRect);
 	switch(dir)
 	{
 		case E: pPos->x+=pas; break;

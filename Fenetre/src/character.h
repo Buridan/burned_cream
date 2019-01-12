@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include "foreground.h"
-#include <math.h>
 #define MAX_CH	MAX_FG
 #define MAX_NAME 16
 /*
