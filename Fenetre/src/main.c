@@ -140,15 +140,15 @@ void setDirection(const byte_t dirMask)
 	switch(dirMask) //UP,DOWN,LEFT,RIGHT -> 0bUDLR
 	{
 		//orthos
-		case 0b1000: dir=N; break;
-		case 0b0100: dir=S; break;
-		case 0b0010: dir=W; break;
-		case 0b0001: dir=E; break;
+		case 8: dir=N; break;
+		case 4: dir=S; break;
+		case 2: dir=W; break;
+		case 1: dir=E; break;
 		//diags
-		case 0b0101: dir=SE; break;
-		case 0b0110: dir=SW; break;
-		case 0b1001: dir=NE; break;
-		case 0b1010: dir=NW; break;
+		case 5: dir=SE; break;
+		case 6: dir=SW; break;
+		case 9: dir=NE; break;
+		case 10: dir=NW; break;
 
 		default :
 		bhv = standing;
