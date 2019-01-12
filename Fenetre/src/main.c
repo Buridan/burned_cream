@@ -118,6 +118,7 @@ void setDirection(const byte_t dirMask)
 	enum behaviour bhv;
 
 	bhv=moving;
+	printf("%d\n",dirMask);
 	switch(dirMask) //UP,DOWN,LEFT,RIGHT -> 0bUDLR
 	{
 		//orthos
@@ -130,7 +131,13 @@ void setDirection(const byte_t dirMask)
 		case 6: dir=SW; break;
 		case 9: dir=NE; break;
 		case 10: dir=NW; break;
-
+		//misc
+		case 7: dir=S; break;
+		case 11: dir=N; break;
+		case 13: dir=E; break;
+		case 14: dir=W; break;
+		
+		// UP/DOWN LEFT/RIGHT ALL NOTHING = no move
 		default :
 		bhv = standing;
 		break;
