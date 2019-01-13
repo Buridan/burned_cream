@@ -5,4 +5,3 @@
 int mainEventLoop();
 void renderBackground(Background* bg);
 void refreshAnimation(unsigned char fps);
-void moveCharacter();

@@ -79,3 +79,34 @@ void character_setDirection(Character* pCh,const byte_t dirMask)
 	}
 	//lastDirMask = dirMask;
 }
+void character_move(Character* pCh)
+{
+	const float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
+	const int pas = 10; //10 pixels par pas sinon les diagonales sont trop  carrés
+	const int pasDiag = qPi * pas;
+	SDL_Rect* pPos = &(pCh->fg.dstRect);
+	switch(pCh->dir)
+	{
+		case E: pPos->x+=pas; break;
+		case W: pPos->x-=pas; break;
+		case S: pPos->y+=pas; break;
+		case N: pPos->y-=pas; break;
+		case SE:
+		pPos->x += pasDiag;
+		pPos->y += pasDiag;
+		break;
+		case SW:
+		pPos->x -= pasDiag;
+		pPos->y += pasDiag;
+		break;
+		case NE:
+		pPos->x += pasDiag;
+		pPos->y -= pasDiag;
+		break;
+		case NW:
+		pPos->x -= pasDiag;
+		pPos->y -= pasDiag;
+		break;
+	}
+	//printf("x:%d y:%d\n",pPos->x,pPos->y); 
+}
