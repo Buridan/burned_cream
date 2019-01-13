@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
 	//destination de depart du sprite
 	decors->dstRect = background_setCentered(decors);
-	tigre->fg.dstRect  = (SDL_Rect){0,0,128,48};
+	tigre->fg.dstRect  = (SDL_Rect){0,0,64,24};
 
 	//Copie de la texture dans le rendu
 	background_copyToRender(decors);
@@ -41,9 +41,7 @@ int mainEventLoop()
 {
 	int end = 0;
 	Character* tgr = getCh(0);
-	tgr->bhv = standing;
-	tgr->dir = E;
-	unsigned char dirMask=0;
+	byte_t dirMask=0;
 	SDL_Event evenement;
 	printf("Starts main loop\n");
 	while(!end)
@@ -53,6 +51,7 @@ int mainEventLoop()
 		if(tgr->bhv == moving)
 		{
 			refreshAnimation(ANIM_FPS);
+			refreshMove(MOVE_FPS);
 		}
 		switch(evenement.type)
 		{
@@ -88,7 +87,21 @@ int mainEventLoop()
 return 0;
 }
 
-void refreshAnimation(unsigned char fps)
+void refreshAnimation(const byte_t fps)
+{
+	static unsigned int cTime, lTime;
+	cTime = SDL_GetTicks();
+	//printf("last time : %d\n current time : %d\n",lTime,cTime);
+	if(cTime > (lTime + (1000/fps)))
+	{
+		background_copyAllToRender();
+		character_nextImage(getCh(0));
+		character_copyAllToRender();
+		SDL_RenderPresent(getRenderer());
+		lTime = cTime;
+	}
+}
+void refreshMove(const byte_t fps) //pourquoi recopier l'intégralité des sprites si certains n'ont pas bougé?
 {
 	static unsigned int cTime, lTime;
 	cTime = SDL_GetTicks();
@@ -97,8 +110,6 @@ void refreshAnimation(unsigned char fps)
 	{
 		Character* pTgr = getCh(0);
 		character_move(pTgr);
-
-		//renderBackground(pBg);
 		background_copyAllToRender();
 		character_copyAllToRender();
 		SDL_RenderPresent(getRenderer());

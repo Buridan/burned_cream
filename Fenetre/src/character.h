@@ -2,6 +2,7 @@
 #include "foreground.h"
 #define MAX_CH	MAX_FG
 #define MAX_NAME 16
+#define MOVE_FPS 30
 /*
  * Brief : représente l'état du personnage
  * nb.Ce n'est pas un personnage de JDR, il n'a pas de caractéristique et de hasard entourant sa création.
@@ -57,3 +58,5 @@ void character_Kill(Character* pCh);
 int character_Save();
 //charge le personnage
 int character_Load();
+
+void character_nextImage(Character* pCh);

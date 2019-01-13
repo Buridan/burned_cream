@@ -3,4 +3,5 @@
 #include "character.h"
 
 int mainEventLoop();
-void refreshAnimation(unsigned char fps);
+void refreshAnimation(const byte_t fps);
+void refreshMove(const byte_t fps);

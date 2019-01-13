@@ -89,8 +89,8 @@ void character_setDirection(Character* pCh,const byte_t dirMask)
 void character_move(Character* pCh)
 {
 	const float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
-	const int pas = 10; //10 pixels par pas sinon les diagonales sont trop  carrés
-	const int pasDiag = qPi * pas;
+	const float pas = 5.0; //10 pixels par pas sinon les diagonales sont trop  carrés
+	const float pasDiag = qPi * pas;
 	SDL_Rect* pPos = &(pCh->fg.dstRect);
 	switch(pCh->dir)
 	{
@@ -116,4 +116,8 @@ void character_move(Character* pCh)
 		break;
 	}
 	//printf("x:%d y:%d\n",pPos->x,pPos->y); 
+}
+void character_nextImage(Character* pCh)
+{
+	pCh->fg = foreground_nextClip(pCh->fg);
 }

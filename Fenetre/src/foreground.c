@@ -18,14 +18,17 @@ static void _setSourceClip(SDL_Rect* sc,int clW,int clH,int hOff,byte_t numOfCli
 		sc[i] = (SDL_Rect){clW * i,hOff,inf.w/numOfClip,clH};
 	}
 }
-void foreground_copyToRender(Foreground* fg)
+void foreground_copyToRender(Foreground* pFg)
 {
-	fg->srcRect = (fg->srcClip[fg->clipCount]);
-	if(SDL_RenderCopy(getRenderer(),fg->sprite.pTexture,
-		&(fg->srcRect),
-		&(fg->dstRect)))
+	pFg->srcRect = (pFg->srcClip[pFg->clipCount]);
+	if(SDL_RenderCopy(getRenderer(),pFg->sprite.pTexture,
+		&(pFg->srcRect),
+		&(pFg->dstRect)))
 		fprintf(stderr,"Echec de copie : %s\n",SDL_GetError());
 	//printf("%zu\n",sp->clipCount);
-	fg->clipCount = (fg->clipCount+1) % MAX_CLIP_COUNT;
 }
-void renderForeground(Foreground* fg);
+Foreground foreground_nextClip(Foreground fg)
+{
+	fg.clipCount = (fg.clipCount+1) % MAX_CLIP_COUNT;
+	return fg;
+}
