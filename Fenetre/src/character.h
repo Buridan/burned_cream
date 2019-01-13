@@ -46,6 +46,8 @@ void character_DestroyAll();
 //getter
 Character* getCh(byte_t b);
 
+//setter
+void character_setDirection(Character* pCh,const byte_t dirMask);
 void character_copyToRender(Character* ch);
 //tue le personnage
 void character_Kill(Character* pCh);

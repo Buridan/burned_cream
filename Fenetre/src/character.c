@@ -50,3 +50,32 @@ void character_copyToRender(Character* ch)
 	foreground_copyToRender(&ch->fg);
 }
 	
+void character_setDirection(Character* pCh,const byte_t dirMask)
+{
+	//TODO: c'est la dernière touche enfoncé qui doit induire le mouvement
+	//static byte_t lastDirMask;
+	pCh->bhv=moving;
+	switch(dirMask) //UP,DOWN,LEFT,RIGHT -> 0bUDLR
+	{
+		//orthos
+		case 8: pCh->dir=N; break;
+		case 4: pCh->dir=S; break;
+		case 2: pCh->dir=W; break;
+		case 1: pCh->dir=E; break;
+		//diags
+		case 5: pCh->dir=SE; break;
+		case 6: pCh->dir=SW; break;
+		case 9: pCh->dir=NE; break;
+		case 10: pCh->dir=NW; break;
+		//misc
+		case 7: pCh->dir=S; break;
+		case 11: pCh->dir=N; break;
+		case 13: pCh->dir=E; break;
+		case 14: pCh->dir=W; break;
+		
+		default :
+		pCh->bhv = standing;
+		break;
+	}
+	//lastDirMask = dirMask;
+}

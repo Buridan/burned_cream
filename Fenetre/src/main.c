@@ -50,7 +50,7 @@ int mainEventLoop()
 	while(!end)
 	{
 		SDL_PollEvent(&evenement);
-		setDirection(dirMask);
+		character_setDirection(getCh(0),dirMask);
 		if(tgr->bhv == moving)
 		{
 			refreshAnimation(ANIM_FPS);
@@ -104,7 +104,7 @@ void refreshAnimation(unsigned char fps)
 	{
 		Character* pTgr = getCh(0);
 		Background* pBg = getBg(0);
-		moveCharacter();
+		moveCharacter(pTgr);
 
 		renderBackground(pBg);
 		character_copyToRender(pTgr);
@@ -112,47 +112,13 @@ void refreshAnimation(unsigned char fps)
 		lTime = cTime;
 	}
 }
-void setDirection(const byte_t dirMask)
-{
-	enum direction dir;
-	enum behaviour bhv;
-
-	bhv=moving;
-	printf("%d\n",dirMask);
-	switch(dirMask) //UP,DOWN,LEFT,RIGHT -> 0bUDLR
-	{
-		//orthos
-		case 8: dir=N; break;
-		case 4: dir=S; break;
-		case 2: dir=W; break;
-		case 1: dir=E; break;
-		//diags
-		case 5: dir=SE; break;
-		case 6: dir=SW; break;
-		case 9: dir=NE; break;
-		case 10: dir=NW; break;
-		//misc
-		case 7: dir=S; break;
-		case 11: dir=N; break;
-		case 13: dir=E; break;
-		case 14: dir=W; break;
-		
-		// UP/DOWN LEFT/RIGHT ALL NOTHING = no move
-		default :
-		bhv = standing;
-		break;
-	}
-	getCh(0)->dir = dir; //!! nous ne savons pas à quel perso cette direction doit s'appliquer
-	getCh(0)->bhv = bhv;
-}
-void moveCharacter()
+void moveCharacter(Character* pCh)
 {
 	const float qPi = 0.7853; //un pas diagonal vaut un quart de pi sur x et y
-	const int pas = 10; //10 pixels par pas sinon les diagonales seraient carrés
+	const int pas = 10; //10 pixels par pas sinon les diagonales sont trop  carrés
 	const int pasDiag = qPi * pas;
-	enum direction dir = getCh(0)->dir;
-	SDL_Rect* pPos = &(getCh(0)->fg.dstRect);
-	switch(dir)
+	SDL_Rect* pPos = &(pCh->fg.dstRect);
+	switch(pCh->dir)
 	{
 		case E: pPos->x+=pas; break;
 		case W: pPos->x-=pas; break;
