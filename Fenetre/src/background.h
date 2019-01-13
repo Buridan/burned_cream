@@ -16,3 +16,5 @@ void background_Destroy(Background* pBg);
 Background* getBg(byte_t b);
 
 SDL_Rect background_setCentered(Background* pBg);
+void background_copyAllToRender();
+void background_copyToRender(Background* pBg);

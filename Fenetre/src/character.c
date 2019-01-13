@@ -4,13 +4,14 @@
 #include "character.h"
 
 static Character m_chList[MAX_CH];
-static int m_chLoaded=0;
+static int m_chIndex=-1;
 
 Character* character_Init(char* pszFilePath)
 {
 	Character cha;
-	printf("new character: %d/%d\n",m_chLoaded+1,MAX_CH);
-	if(m_chLoaded >= MAX_CH)
+	m_chIndex++;
+	printf("new character: %d/%d\n",m_chIndex+1,MAX_CH);
+	if(m_chIndex >= MAX_CH)
 	{
 		printf("Error : Too much character loaded\n");
 	}
@@ -18,17 +19,15 @@ Character* character_Init(char* pszFilePath)
 	cha.dir = E;
 	cha.bhv = standing;
 	//m_fgList[m_fgIndex].pSprite = getLastSprite();
-	m_chList[m_chLoaded] = cha;
-	m_chLoaded++;
-	return &(m_chList[m_chLoaded-1]);
+	m_chList[m_chIndex] = cha;
+	return &(m_chList[m_chIndex]);
 }	
 void character_DestroyAll()
 {
-	m_chLoaded--;
-	while(m_chLoaded>=0)
+	while(m_chIndex>=0)
 	{
-		sprite_Destroy(&(m_chList[m_chLoaded].fg.sprite));
-		m_chLoaded--;
+		sprite_Destroy(&(m_chList[m_chIndex].fg.sprite));
+		m_chIndex--;
 	}
 }
 void character_Destroy(Character* pCh)
@@ -48,6 +47,14 @@ Character* getCh(byte_t b)
 void character_copyToRender(Character* ch)
 {
 	foreground_copyToRender(&ch->fg);
+}
+void character_copyAllToRender()
+{
+	assert(0<=m_chIndex);
+	for(int i = m_chIndex;i>=0;i--)
+	{
+		character_copyToRender(&m_chList[i]);
+	}
 }
 	
 void character_setDirection(Character* pCh,const byte_t dirMask)

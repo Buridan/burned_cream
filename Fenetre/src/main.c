@@ -13,7 +13,6 @@ int main(int argc, char** argv)
 	//recuperation des dimensions de la texture
 	//texture_info BGInfo={0,0,0,0};
 
-	//SDL_QueryTexture(pTexture, &BGInfo.fmt, &BGInfo.acc, &BGInfo.w, &BGInfo.h);
 	//source du sprite
 
 	//destination de depart du sprite
@@ -21,7 +20,7 @@ int main(int argc, char** argv)
 	tigre->fg.dstRect  = (SDL_Rect){0,0,128,48};
 
 	//Copie de la texture dans le rendu
-	renderBackground(decors);
+	background_copyToRender(decors);
 	character_copyToRender(tigre);
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
@@ -88,13 +87,7 @@ int mainEventLoop()
 	}
 return 0;
 }
-void renderBackground(Background* bg)
-{
-	if(SDL_RenderCopy(getRenderer(),bg->sprite.pTexture,
-		&(bg->srcRect),
-		&(bg->dstRect)))
-		fprintf(stderr,"Echec de copie : %s\n",SDL_GetError());
-}
+
 void refreshAnimation(unsigned char fps)
 {
 	static unsigned int cTime, lTime;
@@ -103,11 +96,11 @@ void refreshAnimation(unsigned char fps)
 	if(cTime > (lTime + (1000/fps)))
 	{
 		Character* pTgr = getCh(0);
-		Background* pBg = getBg(0);
 		character_move(pTgr);
 
-		renderBackground(pBg);
-		character_copyToRender(pTgr);
+		//renderBackground(pBg);
+		background_copyAllToRender();
+		character_copyAllToRender();
 		SDL_RenderPresent(getRenderer());
 		lTime = cTime;
 	}

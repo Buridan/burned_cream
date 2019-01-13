@@ -50,6 +50,7 @@ Character* getCh(byte_t b);
 void character_setDirection(Character* pCh,const byte_t dirMask);
 void character_move(Character* pCh);
 void character_copyToRender(Character* ch);
+void character_copyAllToRender();
 //tue le personnage
 void character_Kill(Character* pCh);
 //sauvegarde le personnage
