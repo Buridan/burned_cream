@@ -8,7 +8,7 @@ typedef struct
 	Sprite 		 sprite;
 	SDL_Rect 	 srcRect;
 	SDL_Rect	 dstRect;
-	byte_t 		 clipCount;
+	byte_t 		 clipCount, clipMax;
 	SDL_Rect	 srcClip[MAX_CLIP_COUNT];
 }Foreground;
 
