@@ -8,6 +8,7 @@ int main(int argc, char** argv)
 {
 	window_initAll();
 	Character* tigre = character_Init("./data/spritesheet.bmp");
+	Character* trump = character_Init("./data/spritesheet2.bmp");
 	Background* decors = background_Load("./data/decors.bmp");
 
 	//recuperation des dimensions de la texture
@@ -18,10 +19,11 @@ int main(int argc, char** argv)
 	//destination de depart du sprite
 	decors->dstRect = background_setCentered(decors);
 	tigre->fg.dstRect  = (SDL_Rect){0,0,64,24};
+	trump->fg.dstRect  = (SDL_Rect){100,100,128,128};
 
 	//Copie de la texture dans le rendu
-	background_copyToRender(decors);
-	character_copyToRender(tigre);
+	background_copyAllToRender();
+	character_copyAllToRender();
 	//rafraichissement du rendu dans la fenetre
 	SDL_RenderPresent(getRenderer());
 
