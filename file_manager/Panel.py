@@ -11,7 +11,7 @@ class Panel():
 		self.addMenus(getcwd())
 	def addMenus(self, path):
 		self.addParentMenu(path+"/../",0)
-		self.addMainMenu(path,((self.scr_env.w/2)-(self.width/2)))
+		self.addMainMenu(path,((self.scr_env.w>>1)-(self.width>>1)))
 		self.addChildMenu(path,self.scr_env.w - self.width)
 	def addParentMenu(self, path,posX):
 		self.menu_index+=1
