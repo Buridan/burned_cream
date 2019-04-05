@@ -35,7 +35,7 @@ def main(stdscr):
 				self.focus.getFocusedMenu().previousItem()
 				self.screen.refresh()
 			if c == ord('h'):
-				self.focus.getFocusedMenu().moveOut()
+				self.focus.goLeft()
 				self.screen.refresh()
 			if c == ord('l'):
 				self.focus.getFocusedMenu().moveIn()
@@ -44,7 +44,6 @@ def main(stdscr):
 			self.running = 0
 		def select(self,zone):
 			self.focus = zone
-			self.focus.display()
 	
 	SE = ScreenEnvironment()
 	SE.start()
