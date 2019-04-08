@@ -10,7 +10,7 @@ int main()
 		printf("error while sending message %d",request.message);
 	request.message = MSG_HOLA;
 	pushMsg(request);
-	request.message = MSG_HELLO;
+	request.message = MSG_FOO;
 	pushMsg(request);
 	request.message = MSG_HOLA;
 	pushMsg(request);
@@ -36,6 +36,7 @@ action_t ctxt_static[]=
 {
 	{MA_IGN_SRC,	MSG_HELLO,	MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	hello},
 	{MA_IGN_SRC,	MSG_HOLA,		MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	hola},
+	{MA_IGN_SRC,	MSG_FOO,		MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	foo},
 	{0,0,0,0,0,NULL}
 };
 action_t ctxt_init[]=
@@ -74,7 +75,6 @@ int pushMsg(message_t msg)
 }
 int _processMsg()
 {
-	int i;
 	const message_t msg = m_MsgQueue[m_MsgIndex];
 	if(msg.message==EMPTY_MSG.message)//no message to process
 	{
@@ -82,16 +82,12 @@ int _processMsg()
 		return E_ERR;
 	}
 	//process in current context
-	for(i=0;m_ctxt_list[m_curCtx][i].message!=0;i++)
+	const action_t* isInCtx = _findActionInCtx(m_ctxt_list[m_curCtx], msg.message);
+	if(NULL != isInCtx)
 	{
-		if(m_ctxt_list[m_curCtx][i].message==msg.message)
-		{
-			printf("message: %s(%d)\n",getMsgLbl(m_ctxt_list[m_curCtx][i].message),m_ctxt_list[m_curCtx][i].message);
-			if(NULL != m_ctxt_list[m_curCtx][i].pfn)
-				m_ctxt_list[m_curCtx][i].pfn(msg.args);
-			_setNewCurCtx(m_ctxt_list[m_curCtx][i].newctx);
-			return E_OK;
-		}
+		isInCtx->pfn(msg.args);
+		_setNewCurCtx(isInCtx->newctx);
+		return E_OK;
 	}
 	//else process with static context
 	const action_t* isInCtxStatic = _findActionInCtx(ctxt_static, msg.message);
@@ -103,12 +99,9 @@ int _processMsg()
 	else
 	{
 		isInCtxStatic->pfn(msg.args);
+		_setNewCurCtx(isInCtxStatic->newctx);
+		return E_OK;
 	}
-
-	
-
-	//otherwise this message is unknown : fatal error
-	return E_OK;
 }
 const action_t* _findActionInCtx(const action_t* ctx, const int msgId)
 {
