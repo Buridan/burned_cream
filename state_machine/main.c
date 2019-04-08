@@ -19,7 +19,9 @@ int main()
 	pushMsg(request);
 	request.message = MSG_RUN;
 	pushMsg(request);
-	request.message = MSG_HOLA;
+	request.message = MSG_FINISH;
+	pushMsg(request);
+	request.message = MSG_RESET;
 	pushMsg(request);
 	_rollMsgQueue();
 
@@ -40,16 +42,20 @@ action_t ctxt_init[]=
 {
 	{MA_IGN_SRC,	MSG_RUN,		MA_IGN_ST,	MA_IGN_ST,	CTX_RUN		,	start},
 	{MA_IGN_SRC,	MSG_STOP,		MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	MA_NO_ACTION},
-	{MA_IGN_SRC,	MSG_HELLO,	MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	hello},
 	{MA_IGN_SRC,	MSG_HOLA,		MA_IGN_ST,	MA_IGN_ST,	MA_IGN_CTX,	hola},
 	{0,0,0,0,0,NULL}
 
 };
 action_t ctxt_run[]=
 {
+	{MA_IGN_SRC, MSG_FINISH,	MA_IGN_ST,	MA_IGN_ST,	CTX_END	, finish},
 	{0,0,0,0,0,NULL}
 };
-action_t ctxt_end[]={};
+action_t ctxt_end[]=
+{
+	{MA_IGN_SRC, MSG_RESET,	MA_IGN_ST,	MA_IGN_ST,	CTX_INIT	, reset},
+	{0,0,0,0,0,NULL}
+};
 static action_t* m_ctxt_list[]=
 {
 	ctxt_init,
@@ -91,7 +97,7 @@ int _processMsg()
 	const action_t* isInCtxStatic = _findActionInCtx(ctxt_static, msg.message);
 	if(NULL == isInCtxStatic)
 	{
-		printf("No message found in static context for %d\n",msg.message);
+		printf("No message found in static context for %s(%d)\n",getMsgLbl(msg.message),msg.message);
 		return E_ERR;
 	}
 	else
@@ -106,7 +112,6 @@ int _processMsg()
 }
 const action_t* _findActionInCtx(const action_t* ctx, const int msgId)
 {
-	LOGFN;
 	int i;
 	for(i=0;ctx[i].message!=0;i++)
 	{
@@ -152,18 +157,19 @@ void _setNewCurCtx(int newctx)
 }
 int _rollMsgQueue()
 {
-	LOGFN;
 	int i;
 	int nbActions=0;
+	LOGFN;
 	for(i=0;i<MAX_MSG;i++)
 	{
-		printf("%d/%d\n",m_MsgIndex+1,MAX_MSG);
+		printf("[%d/%d]\t",m_MsgIndex+1,MAX_MSG);
 		if(E_OK == _processMsg())
 		{
 			nbActions++;
 			_clearSlotOnQueue(m_MsgIndex);
 		}
 		_nextSlotOnQueue(); 
+		printf("\r");
 	}
 	printf("message processed:%d\n",nbActions);
 	return nbActions;
@@ -178,30 +184,26 @@ void monitorMsgThreadLoad(int actionsParTour)
 }
 const char* getMsgLbl(const int id)
 {
-	const char* res = getLbl(id,MSGLBL);
-	return (NULL==res) ? MSGLBL[0].pszLbl : res;
+	return getLbl(id,MSGLBL);
 }
 const char* getCtxLbl(const int id)
 {
-	const char* res = getLbl(id,CTXLBL);
-	return (NULL==res) ? CTXLBL[0].pszLbl : res;
+	return getLbl(id,CTXLBL);
 }
 const char* getPuidLbl(const int id)
 {
-	const char* res = getLbl(id,PUIDLBL);
-	printf("%s\n",res);
-	return (NULL==res) ? PUIDLBL[0].pszLbl : res;
+	return getLbl(id,PUIDLBL);
 }
 const char* getLbl(const int id, const genlbl_t* lbl_array)
 {
 	int i;
+	const char* res;
 	for(i=0;i<sizeof(lbl_array);i++)
 	{
 		if(lbl_array[i].iLbl == id)
 		{
-			const char* res = lbl_array[i].pszLbl;
-			return res;
+			res = lbl_array[i].pszLbl;
 		}
 	}
-	return NULL;
+	return (NULL==res) ? lbl_array[0].pszLbl : res;
 }

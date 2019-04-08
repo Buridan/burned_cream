@@ -13,21 +13,24 @@
 #define MA_IGN_CTX 0
 #define MA_IGN_SRC 0
 
-#define CTX_UNKNOWN 0
-#define CTX_INIT 1
-#define CTX_RUN 2
-#define CTX_END 3
+#define CTX_UNKNOWN 0xFF
+#define CTX_INIT 0
+#define CTX_RUN 1
+#define CTX_END 2
 
 #define E_OK 0
 #define E_ERR 1
 
 #define EMPTY_MSG (message_t){0,0,0}
 #define EMPTY_ACTION (action_t){0,0,0,0,0,0}
+
 #define MSG_UNKNOWN 0xFF
 #define MSG_HELLO 	0x01
-#define MSG_HOLA 	0x04
 #define MSG_RUN 	0x02
 #define MSG_STOP 	0x03
+#define MSG_HOLA 	0x04
+#define MSG_RESET	0x05
+#define MSG_FINISH	0x06
 
 #define MAX_MSG 6
 
@@ -61,9 +64,11 @@ static const genlbl_t MSGLBL[]=
 {
 	GENLBL(MSG_UNKNOWN),
 	GENLBL(MSG_HELLO),
-	GENLBL(MSG_HOLA),
 	GENLBL(MSG_RUN),
-	GENLBL(MSG_STOP)
+	GENLBL(MSG_STOP),
+	GENLBL(MSG_HOLA),
+	GENLBL(MSG_RESET),
+	GENLBL(MSG_FINISH)
 };
 static const genlbl_t CTXLBL[]=
 {
@@ -93,4 +98,6 @@ int _rollMsgQueue();
 //fonctions du module
 int hello() { LOGFN;return E_OK; }
 int hola() { LOGFN;return E_OK; }
-int start() { printf("let's start it\n");return E_OK; }
+int start() { LOGFN;return E_OK; }
+int reset() { LOGFN;return E_OK; }
+int finish() { LOGFN;return E_OK; }
