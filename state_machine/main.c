@@ -59,7 +59,7 @@ static action_t* m_ctxt_list[]=
 };
 int pushMsg(message_t msg)
 {
-	printf("Message sent by:%d, msg:%d\n",msg.src,msg.message);
+	printf("Message sent by: %s(%d), msg: %s(%d)\n",getPuidLbl(msg.src), msg.src, getMsgLbl(msg.message),msg.message);
 	if(E_ERR == _appendOnQueue(msg))//queue is full
 	{
 		return E_ERR;
@@ -80,7 +80,7 @@ int _processMsg()
 	{
 		if(m_ctxt_list[m_curCtx][i].message==msg.message)
 		{
-			printf("message:%d\n",m_ctxt_list[m_curCtx][i].message);
+			printf("message: %s(%d)\n",getMsgLbl(m_ctxt_list[m_curCtx][i].message),m_ctxt_list[m_curCtx][i].message);
 			if(NULL != m_ctxt_list[m_curCtx][i].pfn)
 				m_ctxt_list[m_curCtx][i].pfn(msg.args);
 			_setNewCurCtx(m_ctxt_list[m_curCtx][i].newctx);
@@ -112,7 +112,7 @@ const action_t* _findActionInCtx(const action_t* ctx, const int msgId)
 	{
 		if(ctx[i].message==msgId || ctx[i].message==0)
 		{
-			printf("ctx:%d, message:%s(%d)\n",m_curCtx, getMsgLbl(ctx[i].message),ctx[i].message);
+			printf("ctx: %s(%d), message:%s(%d)\n",getCtxLbl(m_curCtx), m_curCtx, getMsgLbl(ctx[i].message),ctx[i].message);
 			return &ctx[i];
 		}
 	}
@@ -146,7 +146,7 @@ void _setNewCurCtx(int newctx)
 {
 	if(newctx != m_curCtx || newctx != MA_IGN_CTX)
 	{
-		printf("switching context from:%d, to:%d\n",m_curCtx,newctx);
+		printf("switching context from: %s(%d), to: %s(%d)\n",getCtxLbl(m_curCtx),m_curCtx,getCtxLbl(newctx),newctx);
 		m_curCtx = newctx;
 	}
 }
@@ -178,14 +178,30 @@ void monitorMsgThreadLoad(int actionsParTour)
 }
 const char* getMsgLbl(const int id)
 {
+	const char* res = getLbl(id,MSGLBL);
+	return (NULL==res) ? MSGLBL[0].pszLbl : res;
+}
+const char* getCtxLbl(const int id)
+{
+	const char* res = getLbl(id,CTXLBL);
+	return (NULL==res) ? CTXLBL[0].pszLbl : res;
+}
+const char* getPuidLbl(const int id)
+{
+	const char* res = getLbl(id,PUIDLBL);
+	printf("%s\n",res);
+	return (NULL==res) ? PUIDLBL[0].pszLbl : res;
+}
+const char* getLbl(const int id, const genlbl_t* lbl_array)
+{
 	int i;
-	for(i=0;i<sizeof(MSGLBL);i++)
+	for(i=0;i<sizeof(lbl_array);i++)
 	{
-		if(MSGLBL[i].iLbl == id)
+		if(lbl_array[i].iLbl == id)
 		{
-			const char* res = MSGLBL[i].pszLbl;
+			const char* res = lbl_array[i].pszLbl;
 			return res;
 		}
 	}
-	return MSGLBL[0].pszLbl;
+	return NULL;
 }

@@ -5,15 +5,18 @@
 #define GENLBL(x)    { x, #x }
 
 #define MY_PUID 1999
+#define TIER_PUID 50
+
 #define LOGFN (printf("%s()\n",__FUNCTION__))
 #define MA_NO_ACTION NULL
 #define MA_IGN_ST 0
 #define MA_IGN_CTX 0
 #define MA_IGN_SRC 0
 
-#define CTX_INIT 0
-#define CTX_RUN 1
-#define CTX_END 2
+#define CTX_UNKNOWN 0
+#define CTX_INIT 1
+#define CTX_RUN 2
+#define CTX_END 3
 
 #define E_OK 0
 #define E_ERR 1
@@ -49,6 +52,11 @@ enum ctx_index
 	init,run,end
 };
 
+static const genlbl_t PUIDLBL[]=
+{
+	GENLBL(MY_PUID),
+	GENLBL(TIER_PUID)
+};
 static const genlbl_t MSGLBL[]=
 {
 	GENLBL(MSG_UNKNOWN),
@@ -57,7 +65,17 @@ static const genlbl_t MSGLBL[]=
 	GENLBL(MSG_RUN),
 	GENLBL(MSG_STOP)
 };
+static const genlbl_t CTXLBL[]=
+{
+	GENLBL(CTX_UNKNOWN),
+	GENLBL(CTX_INIT),
+	GENLBL(CTX_RUN),
+	GENLBL(CTX_END)
+};
+const char* getLbl(const int id, const genlbl_t* lbl_array);
 const char* getMsgLbl(const int id);
+const char* getCtxLbl(const int id);
+const char* getPuidLbl(const int id);
 //public
 int pushMsg(message_t msg);
 //private 
@@ -73,6 +91,6 @@ int _nextSlotOnQueue();
 int _rollMsgQueue();
 
 //fonctions du module
-int hello() { printf("hello\n");return E_OK; }
-int hola() { printf("hola\n");return E_OK; }
+int hello() { LOGFN;return E_OK; }
+int hola() { LOGFN;return E_OK; }
 int start() { printf("let's start it\n");return E_OK; }
