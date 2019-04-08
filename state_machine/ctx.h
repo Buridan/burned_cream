@@ -8,6 +8,7 @@
 #define TIER_PUID 50
 
 #define LOGFN (printf("%s()\n",__FUNCTION__))
+#define DUMMYFN(f)	int f(){LOGFN;return E_OK;}
 #define MA_NO_ACTION NULL
 #define MA_IGN_ST 0
 #define MA_IGN_CTX 0
@@ -96,8 +97,9 @@ int _nextSlotOnQueue();
 int _rollMsgQueue();
 
 //fonctions du module
-int hello() { LOGFN;return E_OK; }
-int hola() { LOGFN;return E_OK; }
-int start() { LOGFN;return E_OK; }
-int reset() { LOGFN;return E_OK; }
-int finish() { LOGFN;return E_OK; }
+//int hello() { LOGFN;return E_OK; }
+DUMMYFN(hello)
+DUMMYFN(hola)
+DUMMYFN(start)
+DUMMYFN(finish)
+DUMMYFN(reset)
