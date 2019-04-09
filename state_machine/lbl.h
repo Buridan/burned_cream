@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "id.h"
-#include "msg.h"
-#include "ctx.h"
+#include "mod_const.h"
 
 #define GENLBL(x)    { x, #x }
 

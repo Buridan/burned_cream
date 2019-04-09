@@ -50,7 +50,7 @@ action_t ctxt_end[]=
 	{MA_IGN_SRC, MSG_RESET,	MA_IGN_ST,	MA_IGN_ST,	CTX_INIT	, reset},
 	{0,0,0,0,0,NULL}
 };
-static action_t* m_ctxt_list[]=
+const action_t* m_ctxt_list[]=
 {
 	ctxt_init,
 	ctxt_run,
