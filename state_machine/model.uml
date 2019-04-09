@@ -1,0 +1,16 @@
+#title:state_machine_module_diagram
+[base|constantes externes]
+[mod_const|msg,st,id,ctx + lbl]
+[mod_func|fonctions du module]
+[state_machine.h]
+[state_machine.c]
+[main]
+
+[base]-[mod_func]
+[mod_const]-[state_machine.h]
+[mod_func]-[state_machine.h]
+[state_machine.h]-[state_machine.c]
+[state_machine.h]-[main]
+[main]-link[exe]
+[state_machine.c]-[<state>state_machine.o]
+[<state>state_machine.o]-[exe]

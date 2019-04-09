@@ -1,0 +1,31 @@
+<svg width="460" height="474" version="1.1" baseProfile="full" viewbox="0 0 460 474" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font-weight:bold; font-size:12pt; font-family:'Calibri', Helvetica, sans-serif;;stroke-width:3;stroke-linejoin:round;stroke-linecap:round"><path d="M349 75.5 L349 95.5 L349 115.5 L349 115.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M112 177.5 L112 197.5 L178.8 217.5 L178.8 217.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M349 177.5 L349 197.5 L282.2 217.5 L282.2 217.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M198.5 248.5 L157.3 268.5 L157.3 288.5 L157.3 288.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M262.5 248.5 L303.8 268.5 L303.8 288.5 L303.8 288.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<text x="207" y="427.1" style="font-weight:normal;">link</text>
+<path d="M303.8 319.5 L303.8 339.5 L303.8 410.5 L303.8 410.5 L253 435.1 L253 435.1 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M157.3 319.5 L157.3 339.5 L157.3 359.5 L157.3 359.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M157.3 390.5 L157.3 410.5 L208 435.1 L208 435.1 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<rect x="250.5" y="13.5" height="62" width="197" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="330" y="35" style="">base</text>
+<path d="M250.5 44.5 L447.5 44.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<text x="258.5" y="66" style="font-weight:normal;">constantes externes</text>
+<rect x="13.5" y="115.5" height="62" width="197" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="69.3" y="137" style="">mod_const</text>
+<path d="M13.5 146.5 L210.5 146.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<text x="21.5" y="168" style="font-weight:normal;">msg,st,id,ctx + lbl</text>
+<rect x="250.5" y="115.5" height="62" width="197" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="311" y="137" style="">mod_func</text>
+<path d="M250.5 146.5 L447.5 146.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<text x="258.5" y="168" style="font-weight:normal;">fonctions du module</text>
+<rect x="151.5" y="217.5" height="31" width="159" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="159.8" y="239" style="">state_machine.h</text>
+<rect x="77.5" y="288.5" height="31" width="159" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="85.8" y="310" style="">state_machine.c</text>
+<rect x="276.5" y="288.5" height="31" width="54" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="284.5" y="310" style="">main</text>
+<rect x="208.5" y="430.5" height="31" width="45" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="216.8" y="452" style="">exe</text>
+<rect x="77.5" y="359.5" rx="15.5" ry="15.5" height="31" width="159" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="85.8" y="381" style="font-weight:normal;">state_machine.o</text></svg>
