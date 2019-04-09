@@ -22,6 +22,8 @@ int main()
 	pushMsg(request);
 	request.message = MSG_RESET;
 	pushMsg(request);
+	request.message = MSG_STOP;
+	pushMsg(request);
 	_rollMsgQueue();
 
 	return 0;

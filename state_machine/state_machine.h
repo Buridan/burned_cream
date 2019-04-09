@@ -28,11 +28,7 @@ static message_t m_MsgQueue[MAX_MSG];
 int pushMsg(message_t msg)
 {
 	printf("Message sent by: %s(%d), msg: %s(%d)\n",getPuidLbl(msg.src), msg.src, getMsgLbl(msg.message),msg.message);
-	if(E_ERR == _appendOnQueue(msg))//queue is full
-	{
-		return E_ERR;
-	}
-	return E_OK;
+	return _appendOnQueue(msg);
 }
 int _processMsg()
 {
