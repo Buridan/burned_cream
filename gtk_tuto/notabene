@@ -1,0 +1,3 @@
+pour trouver les headers et les libs à linker pour avoir gtk on peut utiliser pkg-config:
+pkg-config gtk+-2.0 --cflags
+pkg-config gtk+-2.0 --libs
