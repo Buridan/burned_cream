@@ -1,6 +1,10 @@
 TARGET   = fenetre
 
-CC       = gcc
+CC 		=	$(LINCC)
+LINCC = gcc
+W64CC = i686-w64-mingw32-gcc 
+W32CC = i586-mingw32msvc-gcc
+
 CFLAGS   = -std=c99 -Wall -I. -pedantic -g `pkg-config gtk+-3.0 --cflags`
 LINKER   = gcc
 LFLAGS   = -Wall -I. -lm -lgcc `pkg-config gtk+-3.0 --libs`

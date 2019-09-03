@@ -8,15 +8,14 @@ print_hello (GtkWidget *widget,
 }
 
 int
-main (int   argc,
-      char *argv[])
+example1 ()
 {
   GtkBuilder *builder;
   GObject *window;
   GObject *button;
   GError *error = NULL;
 
-  gtk_init (&argc, &argv);
+  gtk_init (NULL, NULL);
 
   /* Construct a GtkBuilder instance and load our UI description */
   builder = gtk_builder_new ();
